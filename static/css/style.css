@@ -2,8 +2,16 @@ body {
     background-color: #F9FAFC;
 }
 
-.brand {
-    font-family: Lato, sans-serif;
+div{
+
+}
+
+.logo {
+    font-family: 'Josefin Slab', serif;
+
+    /*font-family: 'Raleway', sans-serif;
+
+    font-family: 'Work Sans', sans-serif;*/
     font-size: 1.4rem;
     font-weight: 700;
     color: #4A4A4F;
@@ -30,12 +38,17 @@ body {
 }
 
 .card {
-    border: none;
+    border: 1px solid;
     background-color: transparent;
+
 }
 
 .image-container {
+
     position: relative;
+    object-fit: cover;
+    height: 250px;
+
 }
 
 .image-flash {
@@ -139,4 +152,9 @@ body {
     color: #E84610;
     background: transparent;
     border: none;
+}
+
+.card-img-top{
+    object-fit: cover;
+    max-height: 250px;
 }
