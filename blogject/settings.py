@@ -45,17 +45,32 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
     'django_summernote',
+    'crispy_forms',
     'blog',
 ]
+
+# SOCIALACCOUNT_PROVIDERS = {'facebook': {
+#                                 'METHOD': 'oauth2',
+#                                 'SCOPE': ['email'],
+#                                 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#                                 'LOCALE_FUNC': lambda request: 'en_US',
+#                                 'VERSION': 'v2.4'
+#                                }, 
+#                             'google': {}
+#                             }
 
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
