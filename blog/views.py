@@ -83,3 +83,6 @@ class PostDetail(View):
                     "comment_form": CommentForm()
                 }
             )
+
+def create_post(request):
+    return render(request, 'create_post.html')

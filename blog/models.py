@@ -17,6 +17,21 @@ class Post(models.Model):
     last_updated=models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
     slug = models.SlugField(max_length=200, unique=True)
+    cat_choices = (
+        ('Politics','Politics'),
+        ('Technology','Technology'),
+        ('TV & Film','TV & Film'),
+        ('Video Games','Video Games'),
+        ('Science','Science'),
+        ('Sports','Sports'),
+        ('Fashion','Fashion'),
+        ('Music','Music'),
+    )
+    category = models.CharField(max_length=30, blank=True, null=True, choices=cat_choices)
+
+
+
+
 
     class Meta:
         ordering = ['-post_date']
