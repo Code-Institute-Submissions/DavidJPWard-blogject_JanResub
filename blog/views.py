@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import Post
-from .forms import CommentForm
+from .forms import CommentForm, CreatePostForm
 
 # Create your views here.
 
@@ -84,5 +84,12 @@ class PostDetail(View):
                 }
             )
 
-def create_post(request):
-    return render(request, 'create_post.html')
+def CreatePost(request):
+    if request.POST:
+        create_post_form = CreatePostForm(data=request.POST)
+        if create_post_form.is_valid():
+            create_post_form.instance.author = request.user
+            create_post_form.instance.slug = create_post_form.instance.title
+            create_post_form.save()
+        #return redirect("home.html")
+    return render(request, 'create_post.html', {'form': CreatePostForm})

@@ -15,7 +15,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     post_date = models.DateTimeField(auto_now_add=True)
     last_updated=models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default=0)
+    status = models.IntegerField(choices=STATUS, default=1)
     slug = models.SlugField(max_length=200, unique=True)
     cat_choices = (
         ('Politics','Politics'),
