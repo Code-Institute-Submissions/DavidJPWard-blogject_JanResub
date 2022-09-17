@@ -84,12 +84,21 @@ class PostDetail(View):
                 }
             )
 
+
+def Profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    return render(request, "profile.html")
+
+
 def CreatePost(request):
     if request.POST:
-        create_post_form = CreatePostForm(data=request.POST)
+        create_post_form = CreatePostForm(request.POST, request.FILES)
         if create_post_form.is_valid():
             create_post_form.instance.author = request.user
             create_post_form.instance.slug = create_post_form.instance.title.replace(" ", "_")
+            #create_post_form.instance.featured_image = request.FILES["file"]
             create_post_form.save()
-        #return redirect("home.html")
+        return redirect("home")
     return render(request, 'create_post.html', {'form': CreatePostForm})
+
+
