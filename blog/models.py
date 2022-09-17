@@ -62,8 +62,11 @@ class Comment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     featured_image = CloudinaryField('image', default='profile_placeholder')
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200)
 
+    def __str__(self):
+        return self.user.username
+        
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

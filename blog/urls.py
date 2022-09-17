@@ -10,5 +10,5 @@ urlpatterns = [
     path('profile/', views.Profile, name='profile'),
     path('<slug:slugParameter>/', views.PostDetail.as_view(), name='post_detail'),
     path('like/<slug:slugParameter>', views.PostLike.as_view(), name='post_like'),
-
+    path('user', views.Profile, name='userpage')
 ]

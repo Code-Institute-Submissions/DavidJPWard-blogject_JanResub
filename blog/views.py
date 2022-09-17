@@ -85,9 +85,8 @@ class PostDetail(View):
             )
 
 
-def Profile(request, user_id):
-    user = User.objects.get(pk=user_id)
-    return render(request, "profile.html")
+def Profile(request):
+    return render(request, "profile.html", {"user":request.user})
 
 
 def CreatePost(request):
