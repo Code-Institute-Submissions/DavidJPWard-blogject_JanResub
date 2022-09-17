@@ -89,7 +89,7 @@ def CreatePost(request):
         create_post_form = CreatePostForm(data=request.POST)
         if create_post_form.is_valid():
             create_post_form.instance.author = request.user
-            create_post_form.instance.slug = create_post_form.instance.title
+            create_post_form.instance.slug = create_post_form.instance.title.replace(" ", "_")
             create_post_form.save()
         #return redirect("home.html")
     return render(request, 'create_post.html', {'form': CreatePostForm})
