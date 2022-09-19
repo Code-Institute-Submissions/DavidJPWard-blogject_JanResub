@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import Post
-from .forms import CommentForm, CreatePostForm
+from .forms import CommentForm, CreatePostForm, EditUserForm, EditProfileForm
 
 # Create your views here.
 
@@ -97,7 +97,16 @@ def CreatePost(request):
             create_post_form.instance.slug = create_post_form.instance.title.replace(" ", "_")
             #create_post_form.instance.featured_image = request.FILES["file"]
             create_post_form.save()
-        return redirect("home")
+        return redirect('home')
     return render(request, 'create_post.html', {'form': CreatePostForm})
 
 
+def EditProfile(request):
+    if request.POST:
+        edit_user_form = EditUserForm(request.POST, request.FILES)
+        edit_profile_form = EditProfileForm(instance=request.user.profile)
+        if edit_user_form.is_valid() and edit_profile_form.is_valid():
+            edit_user_form.save()
+            edit_profile_form.save()
+        return redirect('home')
+    return render(request, 'edit_profile.html', {'user_form': EditUserForm, 'profile_form': EditProfileForm()})

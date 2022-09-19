@@ -64,6 +64,11 @@ class Profile(models.Model):
     profile_image = CloudinaryField('image', default='profile_placeholder')
     slug = models.SlugField(max_length=200)
     subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
+    user_bio = models.TextField(max_length=300, blank=True, null=True)
+    twitter_profile = models.TextField(max_length=300, blank=True, null=True)
+    facebook_profile = models.TextField(max_length=300, blank=True, null=True)
+    instagram_profile = models.TextField(max_length=300, blank=True, null=True)
+
 
     def __str__(self):
         return self.user.username

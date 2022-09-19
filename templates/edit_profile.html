@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url 'create_post' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{user_form}}
+{{profile_form}}
+<button>Submit</button>
+</form>
+
+{% endblock %}

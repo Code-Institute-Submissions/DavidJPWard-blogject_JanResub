@@ -8,18 +8,38 @@
             <div class="col-md-4 ">
                 {% if "placeholder" in user.profile.profile_image.url %}
                 <div class="profile-image" style="background: url(/media/images/user.png)"">
-                    <img src=>
+                    
                 </div>
                 {% else %}
                 <div class="profile-image" style="background: url({{ user.profile.profile_image.url }})">
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-8">
-                <div class="row">
-                    {{user.username}}
-                </div>
-                <div class="row">{{user.email}}</div>
+
+            <div class="col-md-4">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>
+                                {{user.username}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{user.email}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{user.profile.user_bio}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <a href="{% url 'edit_profile' %}">edit profile</a>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
