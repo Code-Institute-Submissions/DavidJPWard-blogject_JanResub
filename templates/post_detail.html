@@ -52,20 +52,33 @@
                     <div class="col-1">
                         <strong>
                             {%if user.is_authenticated %}
-                            <form action="{% url 'post_like' post.slug%}" class="d-inline" method="POST">
+                            <form action="{% url 'post_like' post.slug %}" class="d-inline" method="POST">
                                 {% csrf_token %}
                                 {% if liked %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like">
+                                    <button type="submit" value="{{post.slug}}" class="btn-like">
                                         <i class="fas fa-heart"></i>
                                     </button>
                                 {% else %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like">
+                                    <button type="submit" value="{{post.slug}}" class="btn-like">
                                         <i class="far fa-heart"></i>
                                     </button>
                                 {% endif %}
                             </form>
+                            <form action="{% url 'sub_to_user' post.author %}">
+                                {% csrf_token %}
+                                {% if subbed %}
+                                <button type="submit" value="{{post.author.user_id}}" class="btn-sub">
+                                    UNSUBSCRIBE
+                                </button>
+                                {% else %}
+                                <button type="submit" value="{{post.author.user_id}}" class="btn-sub">
+                                    UNSUBSCRIBE
+                                </button>
+                                {% endif %}
+                            </form>
                             {% else %}
                             <span class="text-secondary"><i class="far fa-heart"></i></span>
+
                             {% endif %}
 
                             <span class="text-secondary">{{post.likes}}</span>
