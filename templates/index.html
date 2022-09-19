@@ -12,7 +12,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="image-container">
-                                {% if "placeholder" in post.featured_image.url %}
+                                {% if "profile_placeholder" in post.featured_image.url %}
                                 <img src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg" class="card-img-top">
                                 {% else %}
                                 <img src="{{ post.featured_image.url }}" class="card-img-top">

@@ -6,6 +6,18 @@ body {
     background-color: #4cfd90;
 }
 
+.message-box{
+    position: fixed;
+}
+
+.profile-image{
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    min-height: 360px;
+    object-fit: fill;
+}
+
 .logo {
     font-family: 'Josefin Slab', serif;
 

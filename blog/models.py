@@ -61,8 +61,9 @@ class Comment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    featured_image = CloudinaryField('image', default='profile_placeholder')
+    profile_image = CloudinaryField('image', default='profile_placeholder')
     slug = models.SlugField(max_length=200)
+    subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
 
     def __str__(self):
         return self.user.username
