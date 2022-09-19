@@ -35,13 +35,59 @@
                             </td>
                         </tr>
                         <tr>
-                            <a href="{% url 'edit_profile' %}">edit profile</a>
+                            <td>
+                                {{user.date_joined}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{% url 'edit_profile' %}">edit profile</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-md-4">
 
             </div>
         </div>
+            <div class="row">User Posts</div>
+            <div class="col-12 mt-3 left">
+                <div class="row">
+                    {% for post in user_post_list %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="image-container">
+                                    {% if "profile_placeholder" in post.featured_image.url %}
+                                    <img src="" class="card-img-top">
+                                    {% else %}
+                                    <img src="{{ post.featured_image.url }}" class="card-img-top">
+                                    {% endif %}
+                                    <div class="image-flash">
+                                        <p class="author">
+                                            {{ post.title }}
+                                        </p>
+                                    </div>
+                                </div>
+                            <a href="{% url 'post_detail' post.slug %}" class="post-link">
+                                    <h2 class="card-title">{{ post.author }}</h2>
+                                    <p class="card-text">{{ post.excerpt }}</p>
+                                </a>
+                                <hr />
+                                <p class="card-text text-muted h6">{{ post.post_date }} <i 
+                                    class="far fa-heart"></i>{{ post.number_of_likes }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}
+            </div>
+            
+            <div class="row">
+
+                {% endif %}
+                {% endfor %}
+            </div>
     </div>
 </div>
 

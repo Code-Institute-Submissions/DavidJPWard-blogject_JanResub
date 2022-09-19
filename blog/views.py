@@ -86,7 +86,13 @@ class PostDetail(View):
 
 
 def Profile(request):
-    return render(request, "profile.html", {"user": request.user})
+    queryset = Post.objects.filter(author=request.user)
+
+    context = {
+        "user": request.user,
+        "user_post_list": queryset,
+    }
+    return render(request, "profile.html", context)
 
 
 def CreatePost(request):
@@ -94,7 +100,8 @@ def CreatePost(request):
         create_post_form = CreatePostForm(request.POST, request.FILES)
         if create_post_form.is_valid():
             create_post_form.instance.author = request.user
-            create_post_form.instance.slug = create_post_form.instance.title.replace(" ", "_")
+            post_slug = ''.join(e for e in create_post_form.instance.title if e.isalnum())
+            create_post_form.instance.slug = post_slug
             #create_post_form.instance.featured_image = request.FILES["file"]
             create_post_form.save()
         return redirect('home')
@@ -102,11 +109,18 @@ def CreatePost(request):
 
 
 def EditProfile(request):
+
     if request.POST:
-        edit_user_form = EditUserForm(request.POST, request.FILES)
-        edit_profile_form = EditProfileForm(instance=request.user.profile)
+        edit_user_form = EditUserForm(request.POST, instance=request.user)
+        edit_profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if edit_user_form.is_valid() and edit_profile_form.is_valid():
             edit_user_form.save()
             edit_profile_form.save()
-        return redirect('home')
+        return redirect('profile')
+    
+    else:
+        user = get_object_or_404(Users, id=request.user.user_id)
+        edit_user_form = EditUserForm(instance=request.user)
+        edit_profile_form = EditProfileForm(instance=request.user.profile)
+
     return render(request, 'edit_profile.html', {'user_form': EditUserForm, 'profile_form': EditProfileForm()})
