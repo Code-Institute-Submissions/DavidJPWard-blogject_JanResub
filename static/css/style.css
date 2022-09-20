@@ -8,6 +8,7 @@ body {
 
 .message-box{
     position: fixed;
+    z-index: 2;
 }
 
 .profile-image{
@@ -108,7 +109,7 @@ body {
     -webkit-transform: skew(15deg);
     -moz-transform: skew(15deg);
     transform: skew(15deg);
-    z-index: 100;
+    z-index: 1;
 }
 
 .post-link {

@@ -18,11 +18,9 @@ class PostLike(View):
         post = get_object_or_404(Post, slug=slugParameter)
 
         if post.likes.filter(id=self.request.user.id).exists():
-            #print("unliked")
             post.likes.remove(request.user)
             messages.success(request, "unliked")
         else:
-            #print("liked")
             messages.success(request, "liked")
             post.likes.add(request.user)
         
@@ -30,17 +28,21 @@ class PostLike(View):
         
 
 class SubToUser(View):
-    def post(self, request):
-        user = get_object_or_404(User, user=self)
-
+    def post(self, request, author, slugParameter):
+        print("author:")
+        print(author)
+        user = get_object_or_404(User, username=author)
+        print(user)
+        #messages.info(request, author)
         if user.profile.subscribers.filter(id=self.request.user.id).exists():
             user.profile.subscribers.remove(request.user)
             messages.success(request, "unsubbed")
         else:
             user.profile.subscribers.add(request.user)
-            messages.success(request, "unsubbed")
-
+            messages.success(request, "subbed")
+        
         return HttpResponseRedirect(reverse('post_detail', args=[slugParameter]))
+
 
 
 
@@ -50,13 +52,16 @@ class PostDetail(View):
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
         comments = post.comment.filter(approved=True).order_by('post_date')
+        #---likes---
         liked = False
         if post.likes.filter(id=self.request.user.id).exists():
             liked = True
+            
+        #---subs---
         subbed = False
         if post.author.profile.subscribers.filter(id=self.request.user.id).exists():
             subbed = True
-        
+
         return render(
             request,
             "post_detail.html",
