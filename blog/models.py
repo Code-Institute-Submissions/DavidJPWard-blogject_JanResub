@@ -65,15 +65,15 @@ class Profile(models.Model):
     slug = models.SlugField(max_length=200)
     subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
     user_bio = models.TextField(max_length=300, blank=True, null=True)
-    twitter_profile = models.TextField(max_length=300, blank=True, null=True)
-    facebook_profile = models.TextField(max_length=300, blank=True, null=True)
-    instagram_profile = models.TextField(max_length=300, blank=True, null=True)
+    twitter_profile = models.CharField(max_length=300, blank=True, null=True)
+    facebook_profile = models.CharField(max_length=300, blank=True, null=True)
+    instagram_profile = models.CharField(max_length=300, blank=True, null=True)
 
 
     def __str__(self):
         return self.user.username
     
-    def number_of_subs:
+    def number_of_subs(self):
         return self.subscribers.count()
 
         

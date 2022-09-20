@@ -36,10 +36,10 @@ class SubToUser(View):
         #messages.info(request, author)
         if user.profile.subscribers.filter(id=self.request.user.id).exists():
             user.profile.subscribers.remove(request.user)
-            messages.success(request, "unsubbed")
+            messages.success(request, f"Unsubscribed to {user}")
         else:
             user.profile.subscribers.add(request.user)
-            messages.success(request, "subbed")
+            messages.success(request, f"Subscribed to {user}")
         
         return HttpResponseRedirect(reverse('post_detail', args=[slugParameter]))
 
