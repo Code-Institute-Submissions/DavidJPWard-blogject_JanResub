@@ -64,10 +64,11 @@ class Profile(models.Model):
     profile_image = CloudinaryField('image', default='profile_placeholder')
     slug = models.SlugField(max_length=200)
     subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
+    subscribed_to = models.ManyToManyField(User, related_name='subbed_to', blank=True)
     user_bio = models.TextField(max_length=300, blank=True, null=True)
-    twitter_profile = models.CharField(max_length=300, blank=True, null=True)
-    facebook_profile = models.CharField(max_length=300, blank=True, null=True)
-    instagram_profile = models.CharField(max_length=300, blank=True, null=True)
+    twitter_handle = models.CharField(max_length=300, blank=True, null=True)
+    youtube_handle = models.CharField(max_length=300, blank=True, null=True)
+    instagram_handle = models.CharField(max_length=300, blank=True, null=True)
 
 
     def __str__(self):
@@ -75,6 +76,10 @@ class Profile(models.Model):
     
     def number_of_subs(self):
         return self.subscribers.count()
+
+    def number_subbed_to(self):
+        return self.subscribed_to.count()
+    
 
         
 @receiver(post_save, sender=User)

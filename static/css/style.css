@@ -6,9 +6,25 @@ body {
     background-color: #4cfd90;
 }
 
+.article-filter{
+    height: 50px;
+    background-color: #4cfd90;
+    z-index: 5;
+    position: relative;
+}
+
 .message-box{
     position: fixed;
     z-index: 2;
+}
+
+.media-links{
+    height: 20px;
+    width: 20px;
+}
+
+.greyed-out{
+    color: #999999;
 }
 
 .profile-image{

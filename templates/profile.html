@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-4 ">
                 {% if "placeholder" in user.profile.profile_image.url %}
-                <div class="profile-image" style="background: url(/media/user.png)">
+                <div class="profile-image" style="background: url(static/images/user.png)">
                     
                 </div>
                 {% else %}
@@ -44,11 +44,6 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <a href="{% url 'edit_profile' %}">edit profile</a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -56,27 +51,44 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th>
-                                {{user.username}}
-                            </th>
-                        </tr>
-                        <tr>
                             <td>
-                                {{user.email}}
+                                {{user.profile.number_of_subs}} Subscribers
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                {% if user.profile.user_bio is not None %}
-                                {{user.profile.user_bio}}
-                                {% else %}
-                                <i>No user bio</i>
-                                {% endif %}
+                                {{number_of_posts}} Posts
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                {{user.date_joined}}
+                                Subscribed to {{user.profile.number_subbed_to}} 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="container">
+                                    {% if user.profile.twitter_handle is not none%}
+                                    <a href="{{user.profile.twitter_handle}}"><i class="fa-brands fa-twitter media-links"></i></a>
+                                    {% else %}
+                                    <i class="fa-brands fa-twitter media-links greyed-out"></i>
+                                    {% endif %}
+
+                                    {% if user.profile.youtube_handle is not none%}
+                                    <a href="{{user.profile.youtube_handle}}"><i class="fa-brands fa-youtube ms-3 media-links"></i></a>
+                                    {% else %}
+                                    <i class="fa-brands fa-youtube ms-3 media-links greyed-out"></i>
+                                    {% endif %}
+
+                                    {% if user.profile.instagram_handle is not none%}
+                                    <a href="{{user.profile.instagram_handle}}"><i class="fa-brands fa-instagram ms-3 media-links"></i></a>
+                                    {% else %}
+                                    <i class="fa-brands fa-instagram ms-3 media-links greyed-out"></i>
+                                    {% endif %}
+                                    
+                                    
+                                </div>
+
                             </td>
                         </tr>
                         <tr>
@@ -88,10 +100,55 @@
                 </table>
             </div>
         </div>
-            <div class="row">User Posts</div>
+        <div class="row">User Posts</div>
+            
+        <div class="col-12 mt-3 left">
+            <div class="row">
+                {% if user_post_list %}
+                {% for post in user_post_list %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="image-container">
+                                {% if "profile_placeholder" in post.featured_image.url %}
+                                <img src="" class="card-img-top">
+                                {% else %}
+                                <img src="{{ post.featured_image.url }}" class="card-img-top">
+                                {% endif %}
+                                <div class="image-flash">
+                                    <p class="author">
+                                        {{ post.title }}
+                                    </p>
+                                </div>
+                            </div>
+                        <a href="{% url 'post_detail' post.slug %}" class="post-link">
+                            <h2 class="card-title">{{ post.author }}</h2>
+                            <p class="card-text">{{ post.excerpt }}</p>
+                        </a>
+                        <hr/>
+                        <p class="card-text text-muted h6">{{ post.post_date }} <i>
+                            class="far fa-heart"></i>{{ post.number_of_likes }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+                    {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-md-12">
+            You have yet to write a post, write your first post <a  href="{% url 'create_post' %}">here</a>
+        </div>    
+            {%endif%}
+            <div class="row">Subscriptions</div>
+            
             <div class="col-12 mt-3 left">
                 <div class="row">
-                    {% for post in user_post_list %}
+                    {% if sub_post_list %}
+                    {% for post in sub_post_list %}
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -108,23 +165,28 @@
                                     </div>
                                 </div>
                             <a href="{% url 'post_detail' post.slug %}" class="post-link">
-                                    <h2 class="card-title">{{ post.author }}</h2>
-                                    <p class="card-text">{{ post.excerpt }}</p>
-                                </a>
-                                <hr />
-                                <p class="card-text text-muted h6">{{ post.post_date }} <i 
-                                    class="far fa-heart"></i>{{ post.number_of_likes }}</p>
-                            </div>
+                                <h2 class="card-title">{{ post.author }}</h2>
+                                <p class="card-text">{{ post.excerpt }}</p>
+                            </a>
+                            <hr/>
+                            <p class="card-text text-muted h6">{{ post.post_date }} <i>
+                                class="far fa-heart"></i>{{ post.number_of_likes }}
+                            </p>
                         </div>
                     </div>
-                    {% if forloop.counter|divisibleby:3 %}
+                </div>
+                        {% if forloop.counter|divisibleby:3 %}
             </div>
-            
             <div class="row">
-
                 {% endif %}
                 {% endfor %}
             </div>
+            {% else %}
+            <div class="col-md-12">
+                You have yet to subscribe to a user, doing so shows there articles</a>
+            </div>    
+                {%endif%}
+                
     </div>
 </div>
 

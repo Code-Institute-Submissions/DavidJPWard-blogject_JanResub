@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
+from itertools import chain
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from .models import Post, User
+from .models import Post, User, Profile
 from .forms import CommentForm, CreatePostForm, EditUserForm, EditProfileForm
 
 # Create your views here.
@@ -25,20 +26,24 @@ class PostLike(View):
             post.likes.add(request.user)
         
         return HttpResponseRedirect(reverse('post_detail', args=[slugParameter]))
-        
+
+class PostFilter(View):
+    def post(self, request, category):
+        post = Post.objects.filter(category=category)
+
 
 class SubToUser(View):
     def post(self, request, author, slugParameter):
-        print("author:")
-        print(author)
         user = get_object_or_404(User, username=author)
         print(user)
         #messages.info(request, author)
         if user.profile.subscribers.filter(id=self.request.user.id).exists():
             user.profile.subscribers.remove(request.user)
+            request.user.profile.subscribed_to.remove(user)
             messages.success(request, f"Unsubscribed to {user}")
         else:
             user.profile.subscribers.add(request.user)
+            request.user.profile.subscribed_to.add(user)
             messages.success(request, f"Subscribed to {user}")
         
         return HttpResponseRedirect(reverse('post_detail', args=[slugParameter]))
@@ -106,43 +111,62 @@ class PostDetail(View):
         )
 
 
-def Profile(request):
-    queryset = Post.objects.filter(author=request.user)
+class Profile(View):
+    def get(self, request, user):
+        user = get_object_or_404(User, username=user)
+        user_posts = Post.objects.filter(author=user)
+        subscription_posts = Post.objects.none()
+        if user.profile.number_subbed_to() != 0:
+            if user.profile.subscribed_to:
+                print("lol")
+                for sub in user.profile.subscribed_to.all():
+                    queryset = Post.objects.filter(author=sub)
+                    subscription_posts = subscription_posts | queryset
 
-    context = {
-        "user": request.user,
-        "user_post_list": queryset,
-    }
-    return render(request, "profile.html", context)
+        print(subscription_posts)
+        number_of_posts = user_posts.count()
+
+        print(user_posts)
+        print(subscription_posts)
+
+        context = {
+            "user": user,
+            "user_post_list": user_posts,
+            "sub_post_list": subscription_posts,
+            "number_of_posts": number_of_posts,
+        }
+        return render(request, "profile.html", context)
 
 
-def CreatePost(request):
-    if request.POST:
-        create_post_form = CreatePostForm(request.POST, request.FILES)
-        if create_post_form.is_valid():
-            create_post_form.instance.author = request.user
-            post_slug = ''.join(e for e in create_post_form.instance.title if e.isalnum())
-            create_post_form.instance.slug = post_slug
-            #create_post_form.instance.featured_image = request.FILES["file"]
-            create_post_form.save()
-        return redirect('home')
-    return render(request, 'create_post.html', {'form': CreatePostForm})
+class CreatePost(View):
+    def get(self, request):
+        if request.POST:
+            create_post_form = CreatePostForm(request.POST, request.FILES)
+            if create_post_form.is_valid():
+                create_post_form.instance.author = request.user
+                post_slug = ''.join(e for e in create_post_form.instance.title if e.isalnum())
+                create_post_form.instance.slug = post_slug
+                #create_post_form.instance.featured_image = request.FILES["file"]
+                create_post_form.save()
+            return redirect('home')
+        return render(request, 'create_post.html', {'form': CreatePostForm})
 
 
-def EditProfile(request):
-    #user = User.objects.filter(user_id=request.user.user_id)
+class EditProfile(View):
+    def get(self, request):
+        #user = User.objects.filter(user_id=request.user.user_id)
 
 
-    if request.POST:
-        edit_user_form = EditUserForm(request.POST, instance=request.user)
-        edit_profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if edit_user_form.is_valid() and edit_profile_form.is_valid():
-            edit_user_form.save()
-            edit_profile_form.save()
-        return redirect('profile')
-    
-    else:
-        edit_user_form = EditUserForm(instance=request.user)
-        edit_profile_form = EditProfileForm(instance=request.user.profile)
+        if request.POST:
+            edit_user_form = EditUserForm(request.POST, instance=request.user)
+            edit_profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
+            if edit_user_form.is_valid() and edit_profile_form.is_valid():
+                edit_user_form.save()
+                edit_profile_form.save()
+            return redirect('profile')
+        
+        else:
+            edit_user_form = EditUserForm(instance=request.user)
+            edit_profile_form = EditProfileForm(instance=request.user.profile)
 
-    return render(request, 'edit_profile.html', {'user_form': edit_user_form, 'profile_form': edit_profile_form})
+        return render(request, 'edit_profile.html', {'user_form': edit_user_form, 'profile_form': edit_profile_form})
