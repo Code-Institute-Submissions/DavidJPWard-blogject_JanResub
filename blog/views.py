@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
-from itertools import chain
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from .models import Post, User, Profile
-from .forms import CommentForm, CreatePostForm, EditUserForm, EditProfileForm
+from django.core.paginator import Paginator
+from .models import Post, User
+from .forms import CommentForm, CreatePostForm, EditUserForm, EditProfileForm, EditPostForm
 
 # Create your views here.
 
@@ -115,24 +115,35 @@ class Profile(View):
     def get(self, request, user):
         user = get_object_or_404(User, username=user)
         user_posts = Post.objects.filter(author=user)
-        subscription_posts = Post.objects.none()
+        
+        subscription_posts = Post.objects.none() 
         if user.profile.number_subbed_to() != 0:
             if user.profile.subscribed_to:
-                print("lol")
                 for sub in user.profile.subscribed_to.all():
                     queryset = Post.objects.filter(author=sub)
                     subscription_posts = subscription_posts | queryset
 
-        print(subscription_posts)
-        number_of_posts = user_posts.count()
+        user_post_paginator = Paginator(user_posts, 3)
+        sub_post_paginator = Paginator(subscription_posts, 3)
 
-        print(user_posts)
-        print(subscription_posts)
+        page_number = request.GET.get('page')
+        user_post_page_obj = user_post_paginator.get_page(page_number)
+        sub_post_page_obj = sub_post_paginator.get_page(page_number)
+
+
+        user_post_pagination = True if user_posts.count() > 3 else False
+        sub_post_pagination = True if subscription_posts.count() > 3 else False
+
+        number_of_posts = user_posts.count()
+        
+        print(subscription_posts.count())
 
         context = {
             "user": user,
-            "user_post_list": user_posts,
-            "sub_post_list": subscription_posts,
+            "user_post_list": user_post_page_obj,
+            "user_post_pagination": user_post_pagination,
+            "sub_post_list": sub_post_page_obj,
+            "sub_post_pagination": sub_post_pagination,
             "number_of_posts": number_of_posts,
         }
         return render(request, "profile.html", context)
@@ -140,33 +151,48 @@ class Profile(View):
 
 class CreatePost(View):
     def get(self, request):
-        if request.POST:
-            create_post_form = CreatePostForm(request.POST, request.FILES)
-            if create_post_form.is_valid():
-                create_post_form.instance.author = request.user
-                post_slug = ''.join(e for e in create_post_form.instance.title if e.isalnum())
-                create_post_form.instance.slug = post_slug
-                #create_post_form.instance.featured_image = request.FILES["file"]
-                create_post_form.save()
-            return redirect('home')
         return render(request, 'create_post.html', {'form': CreatePostForm})
-
+    
+    def post(self,request):
+        create_post_form = CreatePostForm(request.POST, request.FILES)
+        if create_post_form.is_valid():
+            create_post_form.instance.author = request.user
+            post_slug = ''.join(e for e in create_post_form.instance.title if e.isalnum())
+            create_post_form.instance.slug = post_slug
+            #create_post_form.instance.featured_image = request.FILES["file"]
+            create_post_form.save()
+        return redirect('home')
 
 class EditProfile(View):
     def get(self, request):
-        #user = User.objects.filter(user_id=request.user.user_id)
 
-
-        if request.POST:
-            edit_user_form = EditUserForm(request.POST, instance=request.user)
-            edit_profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
-            if edit_user_form.is_valid() and edit_profile_form.is_valid():
-                edit_user_form.save()
-                edit_profile_form.save()
-            return redirect('profile')
-        
-        else:
-            edit_user_form = EditUserForm(instance=request.user)
-            edit_profile_form = EditProfileForm(instance=request.user.profile)
+        edit_user_form = EditUserForm(instance=request.user)
+        edit_profile_form = EditProfileForm(instance=request.user.profile)
 
         return render(request, 'edit_profile.html', {'user_form': edit_user_form, 'profile_form': edit_profile_form})
+    
+    def post(self, request):
+        edit_user_form = EditUserForm(request.POST, instance=user)
+        edit_profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if edit_user_form.is_valid() and edit_profile_form.is_valid():
+            edit_user_form.save()
+            edit_profile_form.save()
+        return redirect('profile')
+
+
+class EditPost(View):
+    
+    def get(self, request, title):
+        print("poop" + title)
+        post_to_edit = get_object_or_404(Post, title=title)
+
+        edit_post_form = EditPostForm(instance=post_to_edit)
+
+        return render(request, 'edit_post.html', {'edit_post_form': edit_post_form})
+
+    def post(self, request):
+        edit_post_form = EditPostForm(request.POST, request.FILES)
+        if edit_post_form.is_valid():
+            edit_post_form.save()
+
+        return redirect('profile')

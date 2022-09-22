@@ -9,13 +9,13 @@ body {
 .article-filter{
     height: 50px;
     background-color: #4cfd90;
-    z-index: 5;
+    z-index: 2;
     position: relative;
 }
 
 .message-box{
     position: fixed;
-    z-index: 2;
+    z-index: 3;
 }
 
 .media-links{

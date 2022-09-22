@@ -54,7 +54,6 @@
                             <form action="{% url 'sub_to_user' post.author post.slug%}" class="d-inline" method="POST">
                                 {% csrf_token %}
                                 {% if subbed %}
-                                <script>print(post.author)</script>
                                 <button type="submit" value="{{post.author}}" class="btn-sub">
                                     UNSUBSCRIBE
                                 </button>

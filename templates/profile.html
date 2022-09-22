@@ -1,21 +1,16 @@
 {% extends 'base.html' %} 
 {% block content %}
 
-
 <div class="profile">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 ">
-                {% if "placeholder" in user.profile.profile_image.url %}
-                <div class="profile-image" style="background: url(static/images/user.png)">
-                    
-                </div>
-                {% else %}
-                <div class="profile-image" style="background: url({{ user.profile.profile_image.url }})">
-                </div>
-                {% endif %}
+            <div class="col-md-4 "> 
+                {% if "placeholder" in user.profile.profile_image.url %} 
+                <div class="profile-image" style="background: url(static/images/user.png)"></div> 
+                {% else %} 
+                <div class="profile-image" style="background: url({{ user.profile.profile_image.url }})"></div> 
+                {% endif %} 
             </div>
-
             <div class="col-md-4">
                 <table class="table">
                     <tbody>
@@ -29,19 +24,17 @@
                                 {{user.email}}
                             </td>
                         </tr>
-
                         <tr>
-                            <td>
-                                Member Since: {{user.date_joined}}
+                            <td> Member Since: {{user.date_joined}}
                             </td>
-                        </tr>                        
+                        </tr>
                         <tr>
-                            <td>
-                                {% if user.profile.user_bio is not None %}
-                                {{user.profile.user_bio}}
-                                {% else %}
-                                <i>No user bio</i>
-                                {% endif %}
+                            <td> 
+                                {% if user.profile.user_bio is not None %} 
+                                {{user.profile.user_bio}} 
+                                {% else %} 
+                                <i>No user bio</i> 
+                                {% endif %} 
                             </td>
                         </tr>
                     </tbody>
@@ -61,34 +54,33 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                Subscribed to {{user.profile.number_subbed_to}} 
+                            <td> Subscribed to {{user.profile.number_subbed_to}}
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <div class="container">
-                                    {% if user.profile.twitter_handle is not none%}
-                                    <a href="{{user.profile.twitter_handle}}"><i class="fa-brands fa-twitter media-links"></i></a>
-                                    {% else %}
-                                    <i class="fa-brands fa-twitter media-links greyed-out"></i>
-                                    {% endif %}
-
-                                    {% if user.profile.youtube_handle is not none%}
-                                    <a href="{{user.profile.youtube_handle}}"><i class="fa-brands fa-youtube ms-3 media-links"></i></a>
-                                    {% else %}
-                                    <i class="fa-brands fa-youtube ms-3 media-links greyed-out"></i>
-                                    {% endif %}
-
-                                    {% if user.profile.instagram_handle is not none%}
-                                    <a href="{{user.profile.instagram_handle}}"><i class="fa-brands fa-instagram ms-3 media-links"></i></a>
-                                    {% else %}
-                                    <i class="fa-brands fa-instagram ms-3 media-links greyed-out"></i>
-                                    {% endif %}
-                                    
-                                    
+                                <div class="container"> 
+                                    {% if user.profile.twitter_handle is not none%} 
+                                    <a href="{{user.profile.twitter_handle}}">
+                                        <i class="fa-brands fa-twitter media-links"></i>
+                                    </a> 
+                                    {% else %} 
+                                    <i class="fa-brands fa-twitter media-links greyed-out"></i> 
+                                    {% endif %} 
+                                    {% if user.profile.youtube_handle is not none%} 
+                                    <a href="{{user.profile.youtube_handle}}">
+                                        <i class="fa-brands fa-youtube ms-3 media-links"></i>
+                                    </a> 
+                                    {% else %} 
+                                    <i class="fa-brands fa-youtube ms-3 media-links greyed-out"></i> 
+                                    {% endif %} {% if user.profile.instagram_handle is not none%} 
+                                    <a href="{{user.profile.instagram_handle}}">
+                                        <i class="fa-brands fa-instagram ms-3 media-links"></i>
+                                    </a> 
+                                    {% else %} 
+                                    <i class="fa-brands fa-instagram ms-3 media-links greyed-out"></i> 
+                                    {% endif %} 
                                 </div>
-
                             </td>
                         </tr>
                         <tr>
@@ -101,93 +93,90 @@
             </div>
         </div>
         <div class="row">User Posts</div>
-            
         <div class="col-12 mt-3 left">
-            <div class="row">
-                {% if user_post_list %}
-                {% for post in user_post_list %}
+            <div class="row"> 
+                {% if user_post_list %} 
+                {% for post in user_post_list %} 
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="image-container">
-                                {% if "profile_placeholder" in post.featured_image.url %}
-                                <img src="" class="card-img-top">
-                                {% else %}
-                                <img src="{{ post.featured_image.url }}" class="card-img-top">
-                                {% endif %}
+                            <div class="image-container"> 
+                                {% if "profile_placeholder" in post.featured_image.url %} 
+                                <img src="" class="card-img-top"> 
+                                {% else %} 
+                                <img src="{{ post.featured_image.url }}" class="card-img-top"> 
+                                {% endif %} 
                                 <div class="image-flash">
                                     <p class="author">
                                         {{ post.title }}
                                     </p>
                                 </div>
                             </div>
-                        <a href="{% url 'post_detail' post.slug %}" class="post-link">
-                            <h2 class="card-title">{{ post.author }}</h2>
-                            <p class="card-text">{{ post.excerpt }}</p>
-                        </a>
-                        <hr/>
-                        <p class="card-text text-muted h6">{{ post.post_date }} <i>
-                            class="far fa-heart"></i>{{ post.number_of_likes }}
-                        </p>
+                            <a href="{% url 'post_detail' post.slug %}" class="post-link">
+                                <h2 class="card-title">{{ post.author }}</h2>
+                                <p class="card-text">{{ post.excerpt }}</p>
+                            </a>
+                            <hr />
+                            <p class="card-text text-muted h6">
+                                {{ post.post_date }}
+                                <i class="far fa-heart"></i>
+                                {{ post.number_of_likes }}
+                                <form action="{% url 'edit_post' title %}">
+                                    <button type="submit" value="{{post.title}}">Edit</button>
+                                </form>
+                                <button>Delete</button>
+                                
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </div> 
+                {% if forloop.counter|divisibleby:3 %} 
             </div>
-                    {% if forloop.counter|divisibleby:3 %}
-        </div>
-        <div class="row">
-            {% endif %}
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="col-md-12">
-            You have yet to write a post, write your first post <a  href="{% url 'create_post' %}">here</a>
-        </div>    
-            {%endif%}
-            <div class="row">Subscriptions</div>
-            
+            <div class="row"> 
+                {% endif %} 
+                {% endfor %} 
+            </div> 
+            {% else %} 
+            <div class="col-md-12"> 
+                You have yet to write a post, write your first post 
+                <a href="{% url 'create_post' %}">here</a>
+            </div> {%endif%} {% if user_post_pagination %} <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center"> {% if page_obj.has_previous %} <li>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a>
+                    </li> {% endif %} {% if page_obj.has_next %} <li>
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a>
+                    </li> {% endif %} </ul>
+            </nav> {% endif %} <div class="row">Subscriptions</div>
             <div class="col-12 mt-3 left">
-                <div class="row">
-                    {% if sub_post_list %}
-                    {% for post in sub_post_list %}
-                    <div class="col-md-4">
+                <div class="row"> {% if sub_post_list %} {% for post in sub_post_list %} <div class="col-md-4">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <div class="image-container">
-                                    {% if "profile_placeholder" in post.featured_image.url %}
-                                    <img src="" class="card-img-top">
-                                    {% else %}
-                                    <img src="{{ post.featured_image.url }}" class="card-img-top">
-                                    {% endif %}
-                                    <div class="image-flash">
+                                <div class="image-container"> {% if "profile_placeholder" in post.featured_image.url %} <img src="" class="card-img-top"> {% else %} <img src="{{ post.featured_image.url }}" class="card-img-top"> {% endif %} <div class="image-flash">
                                         <p class="author">
                                             {{ post.title }}
                                         </p>
                                     </div>
                                 </div>
-                            <a href="{% url 'post_detail' post.slug %}" class="post-link">
-                                <h2 class="card-title">{{ post.author }}</h2>
-                                <p class="card-text">{{ post.excerpt }}</p>
-                            </a>
-                            <hr/>
-                            <p class="card-text text-muted h6">{{ post.post_date }} <i>
-                                class="far fa-heart"></i>{{ post.number_of_likes }}
-                            </p>
+                                <a href="{% url 'post_detail' post.slug %}" class="post-link">
+                                    <h2 class="card-title">{{ post.author }}</h2>
+                                    <p class="card-text">{{ post.excerpt }}</p>
+                                </a>
+                                <hr />
+                                <p class="card-text text-muted h6">{{ post.post_date }}
+                                    <i> class="far fa-heart"></i>{{ post.number_of_likes }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                        {% if forloop.counter|divisibleby:3 %}
+                    </div> {% if forloop.counter|divisibleby:3 %} </div>
+                <div class="row"> {% endif %} {% endfor %} </div> {% else %} <div class="col-md-12"> You have yet to subscribe to a user, doing so shows there articles </a>
+                </div> {%endif%} {% if sub_post_pagination %} <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center"> {% if page_obj.has_previous %} <li>
+                            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a>
+                        </li> {% endif %} {% if page_obj.has_next %} <li>
+                            <a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a>
+                        </li> {% endif %} </ul>
+                </nav> {% endif %}
             </div>
-            <div class="row">
-                {% endif %}
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="col-md-12">
-                You have yet to subscribe to a user, doing so shows there articles</a>
-            </div>    
-                {%endif%}
-                
-    </div>
-</div>
+        </div>
 
 {% endblock %}
