@@ -128,6 +128,14 @@ body {
     z-index: 1;
 }
 
+.article-pagination{
+    height: 50px;
+}
+
+.modal{
+    z-index: 5;
+}
+
 .post-link {
     text-decoration: none;
     color: #445261;

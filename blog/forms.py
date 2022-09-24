@@ -45,4 +45,4 @@ class EditPostForm(forms.ModelForm):
     """
     class Meta:
         model = Post
-        fields = ('title', 'content', 'excerpt', 'featured_image', 'category',)
+        fields = ('title', 'content', 'excerpt', 'featured_image',)

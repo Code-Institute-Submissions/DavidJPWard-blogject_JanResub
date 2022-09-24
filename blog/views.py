@@ -35,7 +35,7 @@ class PostLike(View):
     """
     def post(self, request, slugParameter):
         post = get_object_or_404(Post, slug=slugParameter)
-
+    
         if post.likes.filter(id=self.request.user.id).exists():
             post.likes.remove(request.user)
             messages.success(request, "unliked")
@@ -160,8 +160,10 @@ class Profile(View):
         sub_post_pagination = True if subscription_posts.count() > 3 else False
 
         number_of_posts = user_posts.count()
-
+        print(user_post_pagination)
         print(subscription_posts.count())
+
+        print(user_post_page_obj)
 
         context = {
             "user": user,
@@ -228,18 +230,24 @@ class EditPost(View):
     """
     def get(self, request, title):
         post_to_edit = get_object_or_404(Post, title=title)
-
         edit_post_form = EditPostForm(instance=post_to_edit)
 
-        context = {
-            "edit_post_form": edit_post_form,
-            "post": post_to_edit
-        }
-        return render(request, "edit_post.html", context)
+        return render(request, "edit_post.html", {"edit_post_form": edit_post_form, "post": post_to_edit})
 
     def post(self, request, title):
-        edit_post_form = EditPostForm(request.POST, request.FILES)
+        post_to_edit = get_object_or_404(Post, title=title)
+        edit_post_form = EditPostForm(request.POST, request.FILES, instance=post_to_edit)
         if edit_post_form.is_valid():
+            post_to_edit = edit_post_form
+           # print(edit_post_form.instance.author)
+            edit_post_form.instance.author = request.user
+            post_slug = "".join(
+                e for e in edit_post_form.instance.title if e.isalnum()
+            )
+            edit_post_form.instance.slug = post_slug
             edit_post_form.save()
 
-        return redirect("profile")
+
+        return redirect("profile", user=request.user)
+
+

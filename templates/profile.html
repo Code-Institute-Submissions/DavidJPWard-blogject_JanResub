@@ -121,10 +121,30 @@
                                 {{ post.post_date }}
                                 <i class="far fa-heart"></i>
                                 {{ post.number_of_likes }}
-                                <form action="{% url 'edit_post' post.title %}">
-                                    <button type="submit" value="{{post.title}}">Edit</button>
+                                <a href="{% url 'edit_post' post.title %}">EDIT</a>
+                                <form action="">
+                                    <button type="submit" value="">Edit</button>
                                 </form>
-                                <button>Delete</button>
+                                <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Delete</button>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          ...
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 
                             </p>
                         </div>
@@ -140,12 +160,23 @@
             <div class="col-md-12"> 
                 You have yet to write a post, write your first post 
                 <a href="{% url 'create_post' %}">here</a>
-            </div> {%endif%} {% if user_post_pagination %} <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center"> {% if page_obj.has_previous %} <li>
-                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a>
-                    </li> {% endif %} {% if page_obj.has_next %} <li>
-                        <a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a>
-                    </li> {% endif %} </ul>
+            </div> 
+            {%endif%} 
+            <script>print(user_post_page_obj.has_previous)</script>
+            {% if user_post_pagination %} 
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center"> 
+                    {% if user_post_page_obj.has_previous %} 
+                    <li>
+                        <a href="?page={{ user_post_page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a>
+                    </li> 
+                    {% endif %} 
+                    {% if user_post_page_obj.has_next %} 
+                    <li>
+                        <a href="?page={{ user_post_page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a>
+                    </li> 
+                    {% endif %} 
+                </ul>
             </nav> {% endif %} <div class="row">Subscriptions</div>
             <div class="col-12 mt-3 left">
                 <div class="row"> {% if sub_post_list %} {% for post in sub_post_list %} <div class="col-md-4">
@@ -168,8 +199,17 @@
                             </div>
                         </div>
                     </div> {% if forloop.counter|divisibleby:3 %} </div>
-                <div class="row"> {% endif %} {% endfor %} </div> {% else %} <div class="col-md-12"> You have yet to subscribe to a user, doing so shows there articles </a>
-                </div> {%endif%} {% if sub_post_pagination %} <nav aria-label="Page navigation">
+                <div class="row"> 
+                    {% endif %} 
+                    {% endfor %} 
+                </div> 
+                {% else %} 
+                <div class="col-md-12"> 
+                    <p>have yet to subscribe to a user, doing so shows there articles </p> 
+                </div> 
+                {%endif%} 
+                {% if sub_post_pagination %} 
+                <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center"> {% if page_obj.has_previous %} <li>
                             <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a>
                         </li> {% endif %} {% if page_obj.has_next %} <li>
