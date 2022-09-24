@@ -121,7 +121,7 @@
                                 {{ post.post_date }}
                                 <i class="far fa-heart"></i>
                                 {{ post.number_of_likes }}
-                                <form action="{% url 'edit_post' title %}">
+                                <form action="{% url 'edit_post' post.title %}">
                                     <button type="submit" value="{{post.title}}">Edit</button>
                                 </form>
                                 <button>Delete</button>

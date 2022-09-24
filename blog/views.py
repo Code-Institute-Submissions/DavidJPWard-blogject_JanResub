@@ -231,9 +231,13 @@ class EditPost(View):
 
         edit_post_form = EditPostForm(instance=post_to_edit)
 
-        return render(request, "edit_post.html", {"edit_post_form": edit_post_form})
+        context = {
+            "edit_post_form": edit_post_form,
+            "post": post_to_edit
+        }
+        return render(request, "edit_post.html", context)
 
-    def post(self, request):
+    def post(self, request, title):
         edit_post_form = EditPostForm(request.POST, request.FILES)
         if edit_post_form.is_valid():
             edit_post_form.save()
