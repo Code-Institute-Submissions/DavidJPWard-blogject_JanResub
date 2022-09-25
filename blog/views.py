@@ -160,10 +160,7 @@ class Profile(View):
         sub_post_pagination = True if subscription_posts.count() > 3 else False
 
         number_of_posts = user_posts.count()
-        print(user_post_pagination)
-        print(subscription_posts.count())
 
-        print(user_post_page_obj)
 
         context = {
             "user": user,
@@ -251,3 +248,14 @@ class EditPost(View):
         return redirect("profile", user=request.user)
 
 
+class DeletePost(View):
+    def post(self, request, slugParameter):
+        post = get_object_or_404(Post, slug=slugParameter)
+        print(post)
+
+        post.delete()
+
+        print("lol") 
+
+        return HttpResponseRedirect(reverse("profile", args=[request.user]))
+        #return redirect("profile", user=request.user)

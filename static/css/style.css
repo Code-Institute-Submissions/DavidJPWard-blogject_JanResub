@@ -132,8 +132,8 @@ body {
     height: 50px;
 }
 
-.modal{
-    z-index: 5;
+.modal-backdrop{
+    z-index: 10;
 }
 
 .post-link {
