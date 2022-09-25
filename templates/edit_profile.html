@@ -4,19 +4,44 @@
 
 {% load crispy_forms_tags %}
 
+<h1 class="page-header">
+    Edit user details
+</h1>
+
 <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="form-row">
     <div class="col-md-6">
-        <div class="form-group">
-            <label class="small mb-1">Email</label>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Email</label>
+            <div class="col-sm-9">
                 {{user_form.email}}
+            </div>
         </div>
+        <small id="emailHelp" class="form-text text-muted">Reminder: your email will be seen from your profile page</small>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">First name</label>
+            <div class="col-sm-9">
+                {{user_form.first_name}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Last name</label>
+            <div class="col-sm-9">
+                {{user_form.last_name}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">User Bio</label>
+            <div class="col-sm-9">
+                {{profile_form.user_bio}}
+            </div>
+        </div>
+        <button class="btn btn-primary submit-btn">Submit</button>
     </div>
+
 </div>
-{{user_form}}
-{{profile_form}}
-<button>Submit</button>
+
 </form>
 
 {% endblock %}
