@@ -8,6 +8,14 @@ body {
     background-color: #4cfd90 !important;
 }
 
+.crud-form{
+    padding: 0;
+}
+
+.spacer{
+    display: inline;
+}
+
 .article-filter{
     height: 50px;
     background-color: #4cfd90;
@@ -54,46 +62,50 @@ form{
 .logo {
     font-family: 'Josefin Slab', serif;
 
-    /*font-family: 'Raleway', sans-serif;
-
-    font-family: 'Work Sans', sans-serif;*/
     font-size: 1.4rem;
     font-weight: 700;
     color: #4A4A4F;
 }
 
-.red-o {
-    color: #E84610;
-}
 
 .thin {
     font-weight: 300;
 }
 
-.light-bg {
-    background-color: #fff;
-}
-
 .dark-bg {
-    background-color: #445261;
+    background-color: #a2ecb2;
 }
 
 .main-bg {
     background-color: #F9FAFC;
 }
 
-.card {
-    border: 1px solid;
-    background-color: transparent;
-
-}
 
 .image-container {
-
     position: relative;
     object-fit: cover;
     height: 250px;
 
+}
+
+.author{
+    text-transform: capitalize;
+    display: inline;
+    font-size: medium;
+    color: #000000;
+}
+po
+.like-counter{
+    text-align: right;
+    display: inline;
+}
+
+
+.postdate{
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 50px; 
 }
 
 .image-flash {
@@ -102,12 +114,6 @@ form{
     min-width: 30%;
     left: -2px;
     background-color: #23BBBB;
-}
-
-.author {
-    color: white;
-    margin: 4px;
-    text-transform: uppercase;
 }
 
 .masthead {
@@ -120,7 +126,7 @@ form{
 }
 
 .masthead-text {
-    background-color: #445261;
+    background-color: #137036;
     color: white;
     position: relative;
 }
@@ -152,6 +158,16 @@ form{
     z-index: 10;
 }
 
+#post-like-counter{
+    padding: 0;
+}
+
+.post-image{
+    height: 400px;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+}
+
 .post-link {
     text-decoration: none;
     color: #445261;
@@ -163,6 +179,7 @@ form{
 }
 
 .post-title {
+
     margin-top: 20%;
     margin-left: 5%;
 }

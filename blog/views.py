@@ -77,6 +77,7 @@ class PostDetail(View):
     def get(self, request, slugParameter, *args, **kwargs):
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
+        author = post.author
         comments = post.comment.filter(approved=True).order_by("post_date")
         # ---likes---
         liked = False
@@ -94,6 +95,7 @@ class PostDetail(View):
             "post_detail.html",
             {
                 "post": post,
+                "author": author,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,
@@ -142,6 +144,12 @@ class Profile(View):
         user = get_object_or_404(User, username=user)
         user_posts = Post.objects.filter(author=user)
 
+        current_user = request.user
+        my_profile = False
+        if current_user.id == user.id:
+            my_profile = True
+
+
         subscription_posts = Post.objects.none()
         if user.profile.number_subbed_to() != 0:
             if user.profile.subscribed_to:
@@ -169,6 +177,7 @@ class Profile(View):
             "sub_post_list": sub_post_page_obj,
             "sub_post_pagination": sub_post_pagination,
             "number_of_posts": number_of_posts,
+            "my_profile": my_profile
         }
         return render(request, "profile.html", context)
 
@@ -232,9 +241,13 @@ class EditPost(View):
         return render(request, "edit_post.html", {"edit_post_form": edit_post_form, "post": post_to_edit})
 
     def post(self, request, title):
+        print("yes")
         post_to_edit = get_object_or_404(Post, title=title)
         edit_post_form = EditPostForm(request.POST, request.FILES, instance=post_to_edit)
+
+        
         if edit_post_form.is_valid():
+            print("lol")
             post_to_edit = edit_post_form
            # print(edit_post_form.instance.author)
             edit_post_form.instance.author = request.user

@@ -2,34 +2,57 @@
 
 {% block content %}
 
+<h1 class="page-header ">
+    Welcome, check out our latest posts
+</h1>
+
 <div class="container-fluid">
-        <!-- Blog Entries Column -->
-        <div class="col-12 mt-3 left">
+
+        <div class="col-md-12 mt-3 left">
             <div class="row">
                 {% for post in post_list %}
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="image-container">
-                                {% if "profile_placeholder" in post.featured_image.url %}
-                                <img src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg" class="card-img-top">
-                                {% else %}
-                                <img src="{{ post.featured_image.url }}" class="card-img-top">
-                                {% endif %}
-                                <div class="image-flash">
-                                    <p class="author">
-                                        {{ post.title }}
-                                    </p>
+                            <div class="row">
+                            <div class="col-md-4">
+                                <div class="image-container ">
+                                    {% if "profile_placeholder" in post.featured_image.url %}
+                                    <img src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg" class="card-img-top">
+                                    {% else %}
+                                    <img src="{{ post.featured_image.url }}" class="card-img-top">
+                                    {% endif %}
                                 </div>
                             </div>
-                            <a href="{% url 'post_detail' post.slug %}" class="post-link">
-                                <h2 class="card-title">{{ post.author }}</h2>
-                                <p class="card-text">{{ post.excerpt }}</p>
-                            </a>
-                            <hr />
-                            <p class="card-text text-muted h6">{{ post.post_date }} <i 
-                                class="far fa-heart"></i>{{ post.number_of_likes }}</p>
+                            
+                            <div class="col-md-8 col-sm-12">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <a href="{% url 'post_detail' post.slug %}" class="post-link d-inline">
+                                            <h2 class="card-title d-inline">{{ post.title }} - </h2>
+                                        </a>
+                                        <a href="{% url 'profile' post.author %}" class="post-link d-inline">
+                                            <h3 class="author d-inline">{{ post.author }}</h3>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 like-counter">
+                                        <p class="like-counter">
+                                            <i class="far fa-heart"></i> {{ post.number_of_likes }}
+                                        </p>
+                                    </div>
+                                    <hr />
+                                    <p class="card-text">{{ post.masthead }}</p>
+                                    <div class="postdate d-none d-sm-none d-md-block">
+
+                                        <p class="card-text text-muted h6" >{{ post.post_date }} </p>
+
+                                </div>
+                                </div>
+                            </div>
+
+                            
                         </div>
+                    </div>
                     </div>
                 </div>
                 {% if forloop.counter|divisibleby:3 %}

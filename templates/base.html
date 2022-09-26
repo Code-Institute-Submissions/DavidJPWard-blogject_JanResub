@@ -41,11 +41,11 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home <i class="fa-solid fa-house"></i></a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}">Logout<i class="fa-solid fa-door-open"></i></a>
+                        <a class="nav-link" href="{% url 'account_logout' %}">Logout <i class="fa-solid fa-door-open"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'create_post' %}">New Post <i class="fa-solid fa-file-circle-plus"></i></a>
@@ -62,7 +62,6 @@
                     </li>
                     {% endif %}
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -92,12 +91,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 dark-bg">
-        <p class="m-0 text-center text-white"></p>
-        <p class="m-0 text-center text-white">Follow us: <i class="fab fa-facebook-square ms-3"></i>
-            <i class="fab fa-twitter-square ms-3"></i>
-            <i class="fab fa-instagram-square ms-3"></i>
-            <i class="fab fa-youtube-square ms-3"></i></p>
+    <footer class="footer mt-auto py-2 dark-bg" style="text-align: center;">
+        Copyright BLOGject
     </footer>
     <script>
         setTimeout(function(){

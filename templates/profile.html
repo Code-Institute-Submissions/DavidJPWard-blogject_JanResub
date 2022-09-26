@@ -106,30 +106,26 @@
                                 {% else %} 
                                 <img src="{{ post.featured_image.url }}" class="card-img-top"> 
                                 {% endif %} 
-                                <div class="image-flash">
-                                    <p class="author">
-                                        {{ post.title }}
-                                    </p>
-                                </div>
                             </div>
                             <a href="{% url 'post_detail' post.slug %}" class="post-link">
-                                <h2 class="card-title">{{ post.author }}</h2>
-                                <p class="card-text">{{ post.excerpt }}</p>
+                                <h2 class="card-title">{{ post.title }} - {{ post.author }}</h2>
+                                <p class="card-text">{{post.masthead}}</p>
                             </a>
                             <hr />
                             <p class="card-text text-muted h6">
                                 {{ post.post_date }}
                                 <i class="far fa-heart"></i>
                                 {{ post.number_of_likes }}
-                                <form action="{% url 'edit_post' post.title %}">
-                                    <button type="submit" value="">Edit</button>
+                                {% if my_profile %}
+                                <form action="{% url 'edit_post' post.title %}" class="crud-form">
+                                    <button type="submit" class="btn btn-primary" value="">Edit</button>
+                                    
+                                    <button type="button" id="delete-button{{post.id}}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal{{ post.id }}">Delete</button>
                                 </form>
-                                    <button type="button" id="delete-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Delete
-                                    </button>
+                                {% endif %}
                                     
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="Modal{{ post.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -153,7 +149,7 @@
                             </p>
                         </div>
                     </div>
-                </div> 
+                </div>
                 {% if forloop.counter|divisibleby:3 %} 
             </div>
             <div class="row"> 
@@ -214,6 +210,14 @@
                     </div> {% if forloop.counter|divisibleby:3 %} </div>
                 <div class="row"> 
                     {% endif %} 
+                    <script>
+                        var a = "{{ post.id }}"
+                        $(document).ready(function(){
+                        $("#myBtn"+a).click(function(){
+                          $("#myModal"+a).modal({show:true});
+                        });
+                        });
+                        </script>
                     {% endfor %} 
                 </div> 
                 {% else %} 
@@ -231,5 +235,6 @@
                 </nav> {% endif %}
             </div>
         </div>
+
 
 {% endblock %}
