@@ -35,7 +35,7 @@ class PostLike(View):
     """
     def post(self, request, slugParameter):
         post = get_object_or_404(Post, slug=slugParameter)
-    
+
         if post.likes.filter(id=self.request.user.id).exists():
             post.likes.remove(request.user)
             messages.success(request, "unliked")
@@ -67,14 +67,19 @@ class SubToUser(View):
             request.user.profile.subscribed_to.add(user)
             messages.success(request, f"Subscribed to {user}")
 
-        return HttpResponseRedirect(reverse("post_detail", args=[slugParameter]))
+        return HttpResponseRedirect(
+            reverse("post_detail", args=[slugParameter])
+        )
 
 
 class PostDetail(View):
     """
     view that shows the details of a post that a requesting user has clicked on
     """
-    def get(self, request, slugParameter, *args, **kwargs):
+    def get(self, request, slugParameter):
+    """
+    gets the correct post from the database and sends it to the template
+    """
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
         author = post.author
@@ -86,7 +91,9 @@ class PostDetail(View):
 
         # ---subs---
         subbed = False
-        if post.author.profile.subscribers.filter(id=self.request.user.id).exists():
+        if post.author.profile.subscribers.filter(
+            id=self.request.user.id
+        ).exists():
 
             subbed = True
 
@@ -104,7 +111,10 @@ class PostDetail(View):
             },
         )
 
-    def post(self, request, slugParameter, *args, **kwargs):
+    def post(self, request, slugParameter):
+    """
+    post handles the commenting functionality
+    """
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
         comments = post.comment.filter(approved=True).order_by("post_date")
@@ -141,6 +151,10 @@ class Profile(View):
     has clicked on
     """
     def get(self, request, user):
+    """
+    gets the user that is to be displayed as well as sets up page 
+    pagination objects and then passes them to the templates
+    """
         user = get_object_or_404(User, username=user)
         user_posts = Post.objects.filter(author=user)
 
@@ -148,7 +162,6 @@ class Profile(View):
         my_profile = False
         if current_user.id == user.id:
             my_profile = True
-
 
         subscription_posts = Post.objects.none()
         if user.profile.number_subbed_to() != 0:
@@ -169,7 +182,6 @@ class Profile(View):
 
         number_of_posts = user_posts.count()
 
-
         context = {
             "user": user,
             "user_post_list": user_post_page_obj,
@@ -188,6 +200,10 @@ class CreatePost(View):
     when the user is logged in
     """
     def get(self, request):
+    """
+    get method gets the create post template and passes it the forms while 
+    loading the instances
+    """
         return render(request, "create_post.html", {"form": CreatePostForm})
 
     def post(self, request):
@@ -209,6 +225,10 @@ class EditProfile(View):
     and the user profile form.
     """
     def get(self, request):
+    """
+    get method gets the edit profile template and passes it the forms while 
+    loading the instances
+    """
 
         edit_user_form = EditUserForm(instance=request.user)
         edit_profile_form = EditProfileForm(instance=request.user.profile)
@@ -220,6 +240,9 @@ class EditProfile(View):
         )
 
     def post(self, request):
+    """
+    post checks that the form is valid and then edits the infomation accordingly
+    """
         edit_user_form = EditUserForm(request.POST, instance=request.user)
         edit_profile_form = EditProfileForm(
             request.POST, request.FILES, instance=request.user.profile
@@ -235,21 +258,31 @@ class EditPost(View):
     view that allows a user to edit a post they have made.
     """
     def get(self, request, title):
+    """
+    get method gets the edit post template and passes it the forms while 
+    loading the instances
+    """
         post_to_edit = get_object_or_404(Post, title=title)
         edit_post_form = EditPostForm(instance=post_to_edit)
 
-        return render(request, "edit_post.html", {"edit_post_form": edit_post_form, "post": post_to_edit})
+        return render(
+            request, "edit_post.html", {
+                "edit_post_form": edit_post_form, "post": post_to_edit
+            }
+        )
 
     def post(self, request, title):
-        print("yes")
+    """
+    post checks that the form is valid and then edits the infomation accordingly
+    """
         post_to_edit = get_object_or_404(Post, title=title)
-        edit_post_form = EditPostForm(request.POST, request.FILES, instance=post_to_edit)
+        edit_post_form = EditPostForm(
+            request.POST, request.FILES, instance=post_to_edit
+        )
 
-        
         if edit_post_form.is_valid():
-            print("lol")
+
             post_to_edit = edit_post_form
-           # print(edit_post_form.instance.author)
             edit_post_form.instance.author = request.user
             post_slug = "".join(
                 e for e in edit_post_form.instance.title if e.isalnum()
@@ -257,18 +290,17 @@ class EditPost(View):
             edit_post_form.instance.slug = post_slug
             edit_post_form.save()
 
-
         return redirect("profile", user=request.user)
 
 
 class DeletePost(View):
+    """
+    this view takes the slug of a post and deletes it from the database
+    """
     def post(self, request, slugParameter):
         post = get_object_or_404(Post, slug=slugParameter)
         print(post)
 
         post.delete()
 
-        print("lol") 
-
         return HttpResponseRedirect(reverse("profile", args=[request.user]))
-        #return redirect("profile", user=request.user)

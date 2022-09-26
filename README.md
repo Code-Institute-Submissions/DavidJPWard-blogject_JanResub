@@ -40,6 +40,8 @@ the website revoles around the home page. through here you can navigate to most 
 
 
 -database model
+colour scheme
+
 
 
 ## Features

@@ -61,7 +61,6 @@ form{
 
 .logo {
     font-family: 'Josefin Slab', serif;
-
     font-size: 1.4rem;
     font-weight: 700;
     color: #4A4A4F;
@@ -73,11 +72,7 @@ form{
 }
 
 .dark-bg {
-    background-color: #a2ecb2;
-}
-
-.main-bg {
-    background-color: #F9FAFC;
+    background-color:  #4cfd90;
 }
 
 
