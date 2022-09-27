@@ -232,7 +232,7 @@ class EditProfile(View):
     and the user profile form.
     """
     """
-    get method gets the edit profile template and passes it the forms while 
+    get method gets the edit profile template and passes it the forms while
     loading the instances
     """
     def get(self, request):
@@ -245,7 +245,7 @@ class EditProfile(View):
             {"user_form": edit_user_form, "profile_form": edit_profile_form},
         )
     """
-    post checks that the form is valid and then edits the infomation 
+    post checks that the form is valid and then edits the infomation
     accordingly
     """
     def post(self, request):
@@ -280,7 +280,7 @@ class EditPost(View):
             }
         )
     """
-    post checks that the form is valid and then edits the infomation 
+    post checks that the form is valid and then edits the infomation
     accordingly
     """
     def post(self, request, title):

@@ -6,161 +6,297 @@ the objective of the site is to promote positive engagement between like minded 
 
 you can visit the website [here](https://blogject.herokuapp.com/)
 
+## User Experience
 
-## project goals
+### project goals
 
-a responsive design that allows for easy navigation on a vareity of screen sizes
+* a responsive design that allows for easy navigation on a vareity of screen sizes
 
-a place where users can post their thoughts and ideas in a blog format
+* a place where users can post their thoughts and ideas in a blog format
 
-account authorisations to allow engagement between users aswell as a a page where other users can see all your posts.
+* account authorisations to allow engagement between users aswell as a a page where other users can see all your posts.
 
-a simple yet pleasant colour scheme as to promote a fun and relaxed atmosphere
+* a simple yet pleasant colour scheme as to promote a fun and relaxed atmosphere
 
--user goals
+### user goals
 
-as a site admin, i need to manage the content of my site.
+* as a site admin, i need to manage the content of my site.
 
-as a site user, i want to be able to veiw posts.
+* as a site user, i want to be able to veiw posts.
 
-as a site user, i want to be able to create posts.
+* as a site user, i want to be able to create posts.
 
-as a site user, i want to be able to edit and delete my existing posts.
+* as a site user, i want to be able to edit and delete my existing posts.
 
-as a site user i want to be able to like and comment on posts
+* as a site user i want to be able to like and comment on posts
 
-as a site user i want to have my own profile
+* as a site user i want to have my own profile
 
-as a site user i want to be able to subscirbe to other users.
+* as a site user i want to be able to subscirbe to other users.
+
+#### Strategy Table
+
+Issue | value | Feasibility
+--- | --- | ---
+Responsive design | 5 | 5
+Account registration | 5 | 5
+Create, edit and delete posts | 5 | 5
+Comment on Posts | 4 | 5
+like user posts | 4 | 5
+View user profiles | 5 | 4
+Edit user profiles | 4 | 4
+Filter posts | 2 | 2
+search for posts | 3 | 1
+Subscribe to users | 4 | 2
+Create, edit and delete comments | 1 | 2
+Add tags to posts | 3 | 1
+**Total** | **43** | **36**
+
+### scope
+
+looking at my strategy table its clear not all features can be put in place for the first release so the project will need to be released in phases with the features that i have identified as most important, ones needed for a viable product, to be released first.
+
+**First Phase**
+
+* Responsive design
+
+* Account registration
+
+* Create, edit and delete posts
+
+* Comment on posts
+
+* View user profiles
+
+* Edit user profiles
+
+* Subscribe to users
+
+* like user posts
+
+**Second Phase**
+
+* Filter posts 
+
+* Create, edit and delete comments 
+
+* Add tags to posts
+
+### User Stories
+
+i wrote user stories to get a better idea of what a user would stand to gain from using my site. using the issue feature i was able to check them off as i developed them, here is my full list of user stories
+
+![User Stories](assets/UserStories.png)
 
 
--structure
-
-the website revoles around the home page. through here you can navigate to most pages from the site. the navigation bar is consistent throughout the site. both forms and links give clear feedback tot he user through messages. the opportunity to create posts and veiw your profile is available once the user has logged in.
 
 
--database model
+## structure
 
-    title = models.CharField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-    content = models.TextField()
-    featured_image = CloudinaryField('image', default='placeholder')
-    masthead = models.TextField(blank=True)
-    likes = models.ManyToManyField(User, related_name='likes', blank=True)
-    post_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default=1)
-    slug = models.SlugField(max_length=200, unique=True)
-    cat_choices = (
-        ('Politics','Politics'),
-        ('Technology','Technology'),
-        ('TV & Film','TV & Film'),
-        ('Video Games','Video Games'),
-        ('Science','Science'),
-        ('Sports','Sports'),
-        ('Fashion','Fashion'),
-        ('Music','Music'),
-    )
-    category = models.CharField(max_length=30, blank=True, null=True, choices=cat_choices)
+the website revoles around the home page. through here you can navigate to most pages from the site. the navigation bar is consistent throughout the site. both forms and links give clear feedback to the user through messages. the opportunity to create posts and veiw your profile is available once the user has logged in.
 
 
 
 
+Database model
 
-    class Meta:
-        ordering = ['-post_date']
+The website uses three models, one for posts, one for comments and one is an extenstion of the user model that adds more functionality, called profile.
+
+**Post model**
+
+* Title = title of the post
     
-    def __str__(self):
-        return self.title
+* Author = author fo the post 
     
-    def number_of_likes(self):
-        return self.likes.count()
+* Content = main body of the post
     
-class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comment")
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField(max_length=300)
-    post_date = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
+* Masthead = first paragraph of the post that gives and idea of what its about
+    
+* likes = keeps track of the likes and who liked
 
-    class Meta:
-        ordering = ["post_date"]
+* Post date = the date the post was made
+    
+* status = the status of the post i.e. either published or draft
+    
+* slug = the slug of the post, used for url paths
+    
+* categories = the category of the post
 
-    def __str__(self):
-        return f"Comment {self.body} by {self.name}"
+**Comment**
 
+* Post = the post the comment is relating to
+* name = name of the user who made the comment
+* email = email of the user who made the comment
+* body = the main body of the comment
+* approved = wether the comment has been approved by an admin
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = CloudinaryField('image', default='profile_placeholder')
-    slug = models.SlugField(max_length=200)
-    subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
-    subscribed_to = models.ManyToManyField(User, related_name='subbed_to', blank=True)
-    user_bio = models.TextField(max_length=300, blank=True, null=True)
-    twitter_handle = models.CharField(max_length=300, blank=True, null=True)
-    youtube_handle = models.CharField(max_length=300, blank=True, null=True)
-    instagram_handle = models.CharField(max_length=300, blank=True, null=True)
+**Profile**
+* user = the user this profile instance is tied to
+* profile_image = the users profile image
+* slug = the slug that leads to the users profile
+* subscribers = list of all the users subscribers
+* subscribed_to = list of all users that this user is subscribed to
+* user_bio = a small description, written by the user, about themselves
+* twitter_handle = the users twitter handle
+* youtube_handle = the users youtube handle
+* instagram_handle = the users instagram handle
 
+## WireFrames
 
+### Home
 
+![home desktop](assets/homeD.png)
+
+![home mobile](assets/homeM.png)
+
+### profile
+
+![profile desktop](assets/profileD.png)
+
+![profile mobile](assets/profileM.png)
+
+### create post
+
+![create post desktop](assets/createpostD.png)
+
+![create post mobile](assets/createpostM.png)
+
+### post detail
+
+![post detail desktop](assets/postdetailD.png)
 
 ## Features
 
 ### General
 
-responsive design accross all devices.
+- responsive design accross all devices.
 
-navigation bar can contains the company logo and links to other pages. the links turn into a hamburger menu when the screen size decreases. 
+![features](assets/features/1.png)
+
+- navigation bar can contains the company logo and links to other pages. the links turn into a hamburger menu when the screen size decreases. 
 
 
 ### home page
 
-the home page displays a paginated list of all articles sorted from newest first. 
+- the home page displays a paginated list of all articles sorted from newest first. 
 
-the articles are displayed through cards that show all the relevent infomation about the article.
+- the articles are displayed through cards that show all the relevent infomation about the article.
+
+![features](assets/features/2.png)
 
 ### post detail page
 
-the post detail page shows the main content of the article. the title, author, featured image and post date are at the top in the masthead and followed by the main content. 
+- the post detail page shows the main content of the article. the title, author, featured image and post date are at the top in the masthead and followed by the main content. 
 
-users are able to like the post and to subscribe to the author of the post the info box just under the content.
+![features](assets/features/3.png)
 
-users are able to leave comments ad have them listed with other comments.
+- users are able to like the post and to subscribe to the author of the post the info box just under the content.
+
+- users are able to leave comments ad have them listed with other comments.
+
+![features](assets/features/4.png)
 
 ### profile page
 
-users can view their and other users profiles
+- users can view their and other users profiles
 
-users can gain subscribers if they consistenly post well
+- users can gain subscribers if they consistently post well
 
-users have a user bio section that offers a breif description of that user, they can also upload a profile picture.
+- users have a user bio section that offers a breif description of that user, they can also upload a profile picture.
 
-from here users can edit thier posts and delete their posts
+- from here users can edit thier posts and delete their posts
 
-users can veiw all their posts in a paginated list aswell as the posts from user they are subscribed to.
+- users can veiw all their posts in a paginated list aswell as the posts from user they are subscribed to.
 
-users can offer media links to their other social media accounts.
+- users can offer media links to their other social media accounts.
+
+![features](assets/features/5.png)
+
+![features](assets/features/6.png)
+
+![features](assets/features/7.png)
 
 ### new post page
 
-users can create new posts from here
+- users can create new posts from here
 
-easily found in the navbar at the top if that user has been authenticated
+- easily found in the navbar at the top if that user has been authenticated
+
+![features](assets/features/8.png)
 
 ### edit post page
 
-users can edit their posts from this page
+- users can edit their posts from this page
+
+![features](assets/features/9.png)
 
 ### edit profile page
 
-users can edit their profile from this page
+- users can edit their profile from this page
+
+![features](assets/features/10.png)
 
 ### user authentication pages
 
-using allauth i have implemented user authentication
+- using allauth i have implemented user authentication
 
-users can register, log in and log out
+- users can register, log in and log out
+
+## Testing
+
+### code validation
+
+using the flake8 and pylint linter in my IDE ive validated my python code
+
+#### veiws.py
+
+* I have ignore the errors here as its a problem with how the linter and django interact
+
+* error regarding the string statement having no effect is my docstrings within my view classes, ive treid putting the docstrings as the first line of the method but that throws a compile error
+
+#### urls.py
+
+* line to long errors here are not important 
+
+* docstrings not important here a anyone who is familiar with django will understand this file
+
+#### forms.py
+
+* docs are actually present throughout the file
+
+#### modals.py
+
+* I have ignore the errors here as its a problem with how the linter and django interact
+
+* docstrings not important here a anyone who is familiar with django will understand this file
+
+### Manual testing
+
+I have gone throughout my site to test if all links are working correctly
+
+Expected outcome | Actual outcome | pass/fail
+--- | --- | ---
+clicking on home brings you to home | worked as expected | pass
+clicking on a post brings you to that post | worked as expected | pass
+clicking on like will like the post | worked as expected | pass
+clicking on subscribe will subscribes you to that user | worked as expected | pass
+clicking on unsubscribe will unsubscribe you from that user | worked as expected | pass
+writing a comment will post it to be approved | worked as expected | pass
+having a comment approved will show it in the comments section | worked as expected | pass
+clicking on profile will take me to the profile page | worked as expected | pass
+clicking edit profile will take me to the edit profile page | worked as expected | pass
+updated infomation will be reflected when I submit the edit profile form | worked as expected | pass
+clicking next on user posts shows the next page of user posts | worked as expected | pass
+clicking next on subscription posts shows the next page of subscription posts | worked as expected | pass
+clicking log out logs me out as a user | worked as expected | pass
+clicking register will bring me to a form to create an account | worked as expected | pass
+filling out the form and submitting it will create an account for me | worked as expected | pass 
+inputting my existing user details signs me in | worked as expected | pass
+changing the screen size will change the elements of the document to mobile view | worked as expected | pass
+clicking edit post will take me to the edit post page | worked as expected | pass
+updated infomation will be reflected when I submit the edit post form | worked as expected | pass
+deleting a post will remove it frmo the database | worked as expected | pass
+
 
 ## Technologies used
 

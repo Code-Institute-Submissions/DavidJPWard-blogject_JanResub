@@ -4,13 +4,14 @@ from cloudinary.models import CloudinaryField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# Create your models here.
-
 STATUS = ((0, "Draft"), (1, "Published"))
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts"
+    )
     content = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
     masthead = models.TextField(blank=True)
@@ -20,32 +21,33 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=1)
     slug = models.SlugField(max_length=200, unique=True)
     cat_choices = (
-        ('Politics','Politics'),
-        ('Technology','Technology'),
-        ('TV & Film','TV & Film'),
-        ('Video Games','Video Games'),
-        ('Science','Science'),
-        ('Sports','Sports'),
-        ('Fashion','Fashion'),
-        ('Music','Music'),
+        ('Politics', 'Politics'),
+        ('Technology', 'Technology'),
+        ('TV & Film', 'TV & Film'),
+        ('Video Games', 'Video Games'),
+        ('Science', 'Science'),
+        ('Sports', 'Sports'),
+        ('Fashion', 'Fashion'),
+        ('Music', 'Music'),
     )
-    category = models.CharField(max_length=30, blank=True, null=True, choices=cat_choices)
-
-
-
-
+    category = models.CharField(
+        max_length=30, blank=True, null=True, choices=cat_choices
+    )
 
     class Meta:
         ordering = ['-post_date']
-    
+
     def __str__(self):
         return self.title
-    
+
     def number_of_likes(self):
         return self.likes.count()
-    
+
+
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comment")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comment"
+    )
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField(max_length=300)
@@ -64,29 +66,30 @@ class Profile(models.Model):
     profile_image = CloudinaryField('image', default='profile_placeholder')
     slug = models.SlugField(max_length=200)
     subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
-    subscribed_to = models.ManyToManyField(User, related_name='subbed_to', blank=True)
+    subscribed_to = models.ManyToManyField(
+        User, related_name='subbed_to', blank=True
+    )
     user_bio = models.TextField(max_length=300, blank=True, null=True)
     twitter_handle = models.CharField(max_length=300, blank=True, null=True)
     youtube_handle = models.CharField(max_length=300, blank=True, null=True)
     instagram_handle = models.CharField(max_length=300, blank=True, null=True)
 
-
     def __str__(self):
         return self.user.username
-    
+
     def number_of_subs(self):
         return self.subscribers.count()
 
     def number_subbed_to(self):
         return self.subscribed_to.count()
-    
 
-        
+
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(instance, created):
     if created:
         Profile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
+def save_user_profile(instance):
     instance.profile.save()
