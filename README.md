@@ -1,10 +1,10 @@
 # Blogject
 
-logject is a blog/news website where users can create and share posts with other users.
+Blogject is a blog/news website where users can create and share posts with other users.
 
 the objective of the site is to promote positive engagement between like minded people. the site has a strogn social element where users can like and comment on other users posts and subscribe to users who consistently make good content. each user has there own profile that they can edit to make their own. including a user bio, user profile picture and other social media handles 
 
-you can visit the website here.
+you can visit the website [here](https://blogject.herokuapp.com/)
 
 
 ## project goals
@@ -40,7 +40,68 @@ the website revoles around the home page. through here you can navigate to most 
 
 
 -database model
-colour scheme
+
+    title = models.CharField(max_length=200, unique=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    content = models.TextField()
+    featured_image = CloudinaryField('image', default='placeholder')
+    masthead = models.TextField(blank=True)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
+    post_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(choices=STATUS, default=1)
+    slug = models.SlugField(max_length=200, unique=True)
+    cat_choices = (
+        ('Politics','Politics'),
+        ('Technology','Technology'),
+        ('TV & Film','TV & Film'),
+        ('Video Games','Video Games'),
+        ('Science','Science'),
+        ('Sports','Sports'),
+        ('Fashion','Fashion'),
+        ('Music','Music'),
+    )
+    category = models.CharField(max_length=30, blank=True, null=True, choices=cat_choices)
+
+
+
+
+
+    class Meta:
+        ordering = ['-post_date']
+    
+    def __str__(self):
+        return self.title
+    
+    def number_of_likes(self):
+        return self.likes.count()
+    
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comment")
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField(max_length=300)
+    post_date = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["post_date"]
+
+    def __str__(self):
+        return f"Comment {self.body} by {self.name}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_image = CloudinaryField('image', default='profile_placeholder')
+    slug = models.SlugField(max_length=200)
+    subscribers = models.ManyToManyField(User, related_name='subs', blank=True)
+    subscribed_to = models.ManyToManyField(User, related_name='subbed_to', blank=True)
+    user_bio = models.TextField(max_length=300, blank=True, null=True)
+    twitter_handle = models.CharField(max_length=300, blank=True, null=True)
+    youtube_handle = models.CharField(max_length=300, blank=True, null=True)
+    instagram_handle = models.CharField(max_length=300, blank=True, null=True)
+
 
 
 

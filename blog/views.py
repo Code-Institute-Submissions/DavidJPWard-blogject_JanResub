@@ -152,7 +152,7 @@ class Profile(View):
     has clicked on
     """
     """
-    gets the user that is to be displayed as well as sets up page 
+    gets the user that is to be displayed as well as sets up page
     pagination objects and then passes them to the templates
     """
     def get(self, request, user):
@@ -202,7 +202,7 @@ class CreatePost(View):
     when the user is logged in
     """
     """
-    get method gets the create post template and passes it the forms while 
+    get method gets the create post template and passes it the forms while
     loading the instances
     """
     def get(self, request):
@@ -220,7 +220,9 @@ class CreatePost(View):
             # create_post_form.instance.featured_image = request.FILES["file"]
             create_post_form.save()
             print("Post created: " + create_post_form.instance.title)
-            messages.success(request, "Post created: " + create_post_form.instance.title)
+            messages.success(
+                request, "Post created: " + create_post_form.instance.title
+            )
         return redirect("home")
 
 
@@ -243,7 +245,8 @@ class EditProfile(View):
             {"user_form": edit_user_form, "profile_form": edit_profile_form},
         )
     """
-    post checks that the form is valid and then edits the infomation accordingly
+    post checks that the form is valid and then edits the infomation 
+    accordingly
     """
     def post(self, request):
 
@@ -263,7 +266,7 @@ class EditPost(View):
     view that allows a user to edit a post they have made.
     """
     """
-    get method gets the edit post template and passes it the forms while 
+    get method gets the edit post template and passes it the forms while
     loading the instances
     """
     def get(self, request, title):
@@ -277,7 +280,8 @@ class EditPost(View):
             }
         )
     """
-    post checks that the form is valid and then edits the infomation accordingly
+    post checks that the form is valid and then edits the infomation 
+    accordingly
     """
     def post(self, request, title):
 
@@ -295,7 +299,6 @@ class EditPost(View):
             )
             edit_post_form.instance.slug = post_slug
             edit_post_form.save()
-    
         messages.success(request, "post changes saved")
         return redirect("profile", user=request.user)
 
