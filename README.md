@@ -2,7 +2,7 @@
 
 Blogject is a blog/news website where users can create and share posts with other users.
 
-the objective of the site is to promote positive engagement between like minded people. the site has a strogn social element where users can like and comment on other users posts and subscribe to users who consistently make good content. each user has there own profile that they can edit to make their own. including a user bio, user profile picture and other social media handles 
+The objective of the site is to promote positive engagement between like minded people. The site has a strong social element where users can like and comment on other users posts and subscribe to users who consistently make good content. Each user has their own profile that they can edit to make their own. including a user bio, user profile picture and other social media handles 
 
 you can visit the website [here](https://blogject.herokuapp.com/)
 
@@ -10,11 +10,11 @@ you can visit the website [here](https://blogject.herokuapp.com/)
 
 ### project goals
 
-* a responsive design that allows for easy navigation on a vareity of screen sizes
+* a responsive design that allows for easy navigation on a variety of screen sizes
 
 * a place where users can post their thoughts and ideas in a blog format
 
-* account authorisations to allow engagement between users aswell as a a page where other users can see all your posts.
+* account authorisations to allow engagement between users as well as a page where other users can see all your posts.
 
 * a simple yet pleasant colour scheme as to promote a fun and relaxed atmosphere
 
@@ -22,7 +22,7 @@ you can visit the website [here](https://blogject.herokuapp.com/)
 
 * as a site admin, i need to manage the content of my site.
 
-* as a site user, i want to be able to veiw posts.
+* as a site user, i want to be able to view posts.
 
 * as a site user, i want to be able to create posts.
 
@@ -32,7 +32,7 @@ you can visit the website [here](https://blogject.herokuapp.com/)
 
 * as a site user i want to have my own profile
 
-* as a site user i want to be able to subscirbe to other users.
+* as a site user i want to be able to subscribe to other users.
 
 #### Strategy Table
 
@@ -54,7 +54,7 @@ Add tags to posts | 3 | 1
 
 ### scope
 
-looking at my strategy table its clear not all features can be put in place for the first release so the project will need to be released in phases with the features that i have identified as most important, ones needed for a viable product, to be released first.
+Looking at my strategy table it's clear not all features can be put in place for the first release so the project will need to be released in phases with the features that I have identified as most important, ones needed for a viable product, to be released first.
 
 **First Phase**
 
@@ -84,7 +84,7 @@ looking at my strategy table its clear not all features can be put in place for 
 
 ### User Stories
 
-i wrote user stories to get a better idea of what a user would stand to gain from using my site. using the issue feature i was able to check them off as i developed them, here is my full list of user stories
+I wrote user stories to get a better idea of what a user would stand to gain from using my site. using the issue feature i was able to check them off as i developed them, here is my full list of user stories
 
 ![User Stories](assets/UserStories.png)
 
@@ -93,14 +93,12 @@ i wrote user stories to get a better idea of what a user would stand to gain fro
 
 ## structure
 
-the website revoles around the home page. through here you can navigate to most pages from the site. the navigation bar is consistent throughout the site. both forms and links give clear feedback to the user through messages. the opportunity to create posts and veiw your profile is available once the user has logged in.
+The website revolves around the home page. through here you can navigate to most pages from the site. The navigation bar is consistent throughout the site. Both forms and links give clear feedback to the user through messages. the opportunity to create posts and view your profile is available once the user has logged in.
 
 
+## Database model
 
-
-Database model
-
-The website uses three models, one for posts, one for comments and one is an extenstion of the user model that adds more functionality, called profile.
+The website uses three models, one for posts, one for comments and one is an extension of the user model that adds more functionality, called profile.
 
 **Post model**
 
@@ -128,7 +126,7 @@ The website uses three models, one for posts, one for comments and one is an ext
 * name = name of the user who made the comment
 * email = email of the user who made the comment
 * body = the main body of the comment
-* approved = wether the comment has been approved by an admin
+* approved = whether the comment has been approved by an admin
 
 **Profile**
 * user = the user this profile instance is tied to
@@ -169,7 +167,7 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 ### General
 
-- responsive design accross all devices.
+- responsive design across all devices.
 
 ![features](assets/features/1.png)
 
@@ -180,19 +178,19 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 - the home page displays a paginated list of all articles sorted from newest first. 
 
-- the articles are displayed through cards that show all the relevent infomation about the article.
+- the articles are displayed through cards that show all the relevant information about the article.
 
 ![features](assets/features/2.png)
 
 ### post detail page
 
-- the post detail page shows the main content of the article. the title, author, featured image and post date are at the top in the masthead and followed by the main content. 
+- the post detail page shows the main content of the article. The title, author, featured image and post date are at the top in the masthead and followed by the main content. 
 
 ![features](assets/features/3.png)
 
 - users are able to like the post and to subscribe to the author of the post the info box just under the content.
 
-- users are able to leave comments ad have them listed with other comments.
+- users are able to leave comments and have them listed with other comments.
 
 ![features](assets/features/4.png)
 
@@ -202,11 +200,11 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 - users can gain subscribers if they consistently post well
 
-- users have a user bio section that offers a breif description of that user, they can also upload a profile picture.
+- users have a user bio section that offers a brief description of that user, they can also upload a profile picture.
 
-- from here users can edit thier posts and delete their posts
+- from here users can edit their posts and delete their posts
 
-- users can veiw all their posts in a paginated list aswell as the posts from user they are subscribed to.
+- users can view all their posts in a paginated list as well as the posts from user they are subscribed to.
 
 - users can offer media links to their other social media accounts.
 
@@ -246,13 +244,13 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 ### code validation
 
-using the flake8 and pylint linter in my IDE ive validated my python code
+using the flake8 and pylint linter in my IDE I've validated my python code
 
 #### veiws.py
 
 * I have ignore the errors here as its a problem with how the linter and django interact
 
-* error regarding the string statement having no effect is my docstrings within my view classes, ive treid putting the docstrings as the first line of the method but that throws a compile error
+* error regarding the string statement having no effect is my docstrings within my view classes, I've tried putting the docstrings as the first line of the method but that throws a compile error
 
 #### urls.py
 
@@ -285,7 +283,7 @@ writing a comment will post it to be approved | worked as expected | pass
 having a comment approved will show it in the comments section | worked as expected | pass
 clicking on profile will take me to the profile page | worked as expected | pass
 clicking edit profile will take me to the edit profile page | worked as expected | pass
-updated infomation will be reflected when I submit the edit profile form | worked as expected | pass
+updated information will be reflected when I submit the edit profile form | worked as expected | pass
 clicking next on user posts shows the next page of user posts | worked as expected | pass
 clicking next on subscription posts shows the next page of subscription posts | worked as expected | pass
 clicking log out logs me out as a user | worked as expected | pass
@@ -294,8 +292,8 @@ filling out the form and submitting it will create an account for me | worked as
 inputting my existing user details signs me in | worked as expected | pass
 changing the screen size will change the elements of the document to mobile view | worked as expected | pass
 clicking edit post will take me to the edit post page | worked as expected | pass
-updated infomation will be reflected when I submit the edit post form | worked as expected | pass
-deleting a post will remove it frmo the database | worked as expected | pass
+updated information will be reflected when I submit the edit post form | worked as expected | pass
+deleting a post will remove it from the database | worked as expected | pass
 
 
 ## Technologies used
@@ -319,13 +317,13 @@ deleting a post will remove it frmo the database | worked as expected | pass
 
 ## Packages / Dependecies Installed
 
-- Cloudinary - Cloudinary was used to store images online as apposed to statically
+- Cloudinary - Cloudinary was used to store images online as opposed to statically
 
 - Django Allauth - Django Allauth has been used to handle user authentication
 
-- Django Crispy Form - Django Crispy Form has helped with the rendering froms
+- Django Crispy Form - Django Crispy Form has helped with the rendering forms
 
-- Gunicorn - Gunicorn has been used as Python WSGI HTTP Server for UNIX to support the deployment of Django application.
+- Gunicorn - Gunicorn has been used as Python WSGI HTTP Server for UNIX to support the deployment of Django applications.
 
 - Summernote - Summernote was implemented as a WYSIWYG editor.
 
@@ -335,88 +333,88 @@ deleting a post will remove it frmo the database | worked as expected | pass
 
 - heroku - the website used to deploy the application
 
-- Youtube - many features ive implemented were taught to me through youtube tutorials
+- Youtube - many features I've implemented were taught to me through youtube tutorials
 
 - stack overflow - most bugs and errors were resolved by looking them up through stack overflow
 
 ## future features
 
-- plans to introduce social accounts to make authenication easier
+- plans to introduce social accounts to make authentication easier
 
 - plans to filter posts on the home page by user or category aswell as increase the pagination limit.
 
 ## Deployment
 
-This project was developed using a GitPod workspace. The code was commited to Git and pushed to GitHub using the terminal.
-Deploying on Heroku
+This project was developed using a [GitPod](https://gitpod.io/) workspace. The code was commit to [Git](https://git-scm.com/) and pushed to [GitHub](https://github.com/") using the terminal.
 
+### Deploying on Heroku
 To deploy this page to Heroku from its GitHub repository, the following steps were taken:
 
-    Create the Heroku App:
-        Select "Create new app" in Heroku.
-        Choose a name for your app and select the location.
+1. Create the Heroku App:
+    - Select "Create new app" in Heroku.
+    - Choose a name for your app and select the location.
 
-    Attach the Postgres database:
-        In the Resources tab, under add-ons, type in Postgres and select the Heroku Postgres option.
+2. Attach the Postgres database:
+    - In the Resources tab, under add-ons, type in Postgres and select the Heroku Postgres option.
 
-    Prepare the environment and settings.py file:
-        In the Settings tab, click on Reveal Config Vars and copy the url next to DATABASE_URL.
-        In your GitPod workspace, create an env.py file in the main directory.
-        Add the DATABASE_URL value and your chosen SECRET_KEY value to the env.py file.
-        Add the SECRET_KEY value to the Config Vars in Heroku.
-        Update the settings.py file to import the env file and add the SECRETKEY and DATABASE_URL file paths.
-        Update the Config Vars with the Cloudinary url, adding into the settings.py file also.
-        In settings.py add the following sections:
-            Cloudinary to the INSTALLED_APPS list
-            STATICFILE_STORAGE
-            STATICFILES_DIRS
-            STATIC_ROOT
-            MEDIA_URL
-            DEFAULT_FILE_STORAGE
-            TEMPLATES_DIR
-            Update DIRS in TEMPLATES with TEMPLATES_DIR
-            Update ALLOWED_HOSTS with ['app_name.heroku.com', 'localhost']
+3. Prepare the environment and settings.py file:
+    * In the Settings tab, click on Reveal Config Vars and copy the url next to DATABASE_URL.
+    * In your GitPod workspace, create an env.py file in the main directory. 
+    * Add the DATABASE_URL value and your chosen SECRET_KEY value to the env.py file.
+    * Add the SECRET_KEY value to the Config Vars in Heroku.
+    * Update the settings.py file to import the env file and add the SECRETKEY and DATABASE_URL file paths.
+    * Update the Config Vars with the Cloudinary url, adding into the settings.py file also.
+    * In settings.py add the following sections:
+        * Cloudinary to the INSTALLED_APPS list
+        * STATICFILE_STORAGE
+        * STATICFILES_DIRS
+        * STATIC_ROOT
+        * MEDIA_URL
+        * DEFAULT_FILE_STORAGE
+        * TEMPLATES_DIR
+        * Update DIRS in TEMPLATES with TEMPLATES_DIR
+        * Update ALLOWED_HOSTS with ['app_name.heroku.com', 'localhost']
 
-    Store Static and Media files in Cloudinary and Deploy to Heroku:
-        Create three directories in the main directory; media, storage and templates.
-        Create a file named "Procfile" in the main directory and add the following:
-            web: gunicorn project-name.wsgi
-        Go to Deploy tab on Heroku and connect to the GitHub, then to the required recpository. Click on Delpoy Branch and wait for the build to load. When the build is complete, the app can be opened through Heroku.
+4. Store Static and Media files in Cloudinary and Deploy to Heroku:
+    - Create three directories in the main directory; media, storage and templates.
+    - Create a file named "Procfile" in the main directory and add the following:
+        - web: gunicorn project-name.wsgi
+    - Go to Deploy tab on Heroku and connect to the GitHub, then to the required repository.
+    Click on Deploy Branch and wait for the build to load. When the build is complete, the app can be opened through Heroku.
 
-Forking the Repository
-
+### Forking the Repository
 By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
 
-    Log into GitHub or create an account.
-    Locate the GitHub Repository.
-    At the top of the repository, on the right side of the page, select "Fork"
-    You should now have a copy of the original repository in your GitHub account.
+1. Log into [GitHub](https://github.com/login) or [create an account](https://github.com/join).
+2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+3. At the top of the repository, on the right side of the page, select "Fork"
+4. You should now have a copy of the original repository in your GitHub account.
 
-Creating a Clone
-
+### Creating a Clone
 How to run this project locally:
-
-    Install the GitPod Browser Extension for Chrome.
-    After installation, restart the browser.
-    Log into GitHub or create an account.
-    Locate the GitHub Repository.
-    Click the green "GitPod" button in the top right corner of the repository. This will trigger a new gitPod workspace to be created from the code in github where you can work locally.
+1. Install the [GitPod Browser](https://www.gitpod.io/docs/browser-extension/ "Link to Gitpod Browser extension download") Extension for Chrome.
+2. After installation, restart the browser.
+3. Log into [GitHub](https://github.com/login "Link to GitHub login page") or [create an account](https://github.com/join "Link to GitHub create account page").
+2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+5. Click the green "GitPod" button in the top right corner of the repository.
+This will trigger a new gitPod workspace to be created from the code in github where you can work locally.
 
 How to run this project within a local IDE, such as VSCode:
 
-    Log into GitHub or create an account.
-    Locate the GitHub Repository.
-    Under the repository name, click "Clone or download".
-    In the Clone with HTTPs section, copy the clone URL for the repository.
-    In your local IDE open the terminal.
-    Change the current working directory to the location where you want the cloned directory to be made.
-    Type 'git clone', and then paste the URL you copied in Step 3.
-
+1. Log into [GitHub](https://github.com/login) or [create an account](https://github.com/join).
+2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+3. Under the repository name, click "Clone or download".
+4. In the Clone with HTTPs section, copy the clone URL for the repository.
+5. In your local IDE open the terminal.
+6. Change the current working directory to the location where you want the cloned directory to be made.
+7. Type 'git clone', and then paste the URL you copied in Step 3.
+```
 git clone https://github.com/josswe26/code-buddy
+```
+8. Press Enter. Your local clone will be created.
 
-    Press Enter. Your local clone will be created.
+Further reading and troubleshooting on cloning a repository from GitHub [here](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
-Further reading and troubleshooting on cloning a repository from GitHub here
 
 
 ## Acknowledgements
@@ -435,5 +433,7 @@ help from youtube tutorials and google
 ### known bugs
 creating a post with the same name will generate a duplicate slug which will lead to an error. a fix would be to validate the title to make it unique or change how slugs are generated.
 
+having an empty user profile picture value should show a placeholder user image instead of nothing 
 
-many thanks to my mentor marcel, for his guidance throughout this project as well as the code institute tutor team.
+
+Many thanks to my mentor Marcel, for his guidance throughout this project as well as the code institute tutor team.
