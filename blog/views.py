@@ -76,10 +76,11 @@ class PostDetail(View):
     """
     view that shows the details of a post that a requesting user has clicked on
     """
-    def get(self, request, slugParameter):
     """
     gets the correct post from the database and sends it to the template
     """
+    def get(self, request, slugParameter):
+
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
         author = post.author
@@ -110,11 +111,11 @@ class PostDetail(View):
                 "comment_form": CommentForm(),
             },
         )
-
-    def post(self, request, slugParameter):
     """
     post handles the commenting functionality
     """
+    def post(self, request, slugParameter):
+
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slugParameter)
         comments = post.comment.filter(approved=True).order_by("post_date")
@@ -150,11 +151,12 @@ class Profile(View):
     view that shows the profile of a user that the requesting user
     has clicked on
     """
-    def get(self, request, user):
     """
     gets the user that is to be displayed as well as sets up page 
     pagination objects and then passes them to the templates
     """
+    def get(self, request, user):
+
         user = get_object_or_404(User, username=user)
         user_posts = Post.objects.filter(author=user)
 
@@ -199,11 +201,12 @@ class CreatePost(View):
     view that shows a form that, once submitted, creates a post, only available
     when the user is logged in
     """
-    def get(self, request):
     """
     get method gets the create post template and passes it the forms while 
     loading the instances
     """
+    def get(self, request):
+
         return render(request, "create_post.html", {"form": CreatePostForm})
 
     def post(self, request):
@@ -216,6 +219,8 @@ class CreatePost(View):
             create_post_form.instance.slug = post_slug
             # create_post_form.instance.featured_image = request.FILES["file"]
             create_post_form.save()
+            print("Post created: " + create_post_form.instance.title)
+            messages.success(request, "Post created: " + create_post_form.instance.title)
         return redirect("home")
 
 
@@ -224,12 +229,11 @@ class EditProfile(View):
     view that allows a user to edit their profile, shows both the user form
     and the user profile form.
     """
-    def get(self, request):
     """
     get method gets the edit profile template and passes it the forms while 
     loading the instances
     """
-
+    def get(self, request):
         edit_user_form = EditUserForm(instance=request.user)
         edit_profile_form = EditProfileForm(instance=request.user.profile)
 
@@ -238,11 +242,11 @@ class EditProfile(View):
             "edit_profile.html",
             {"user_form": edit_user_form, "profile_form": edit_profile_form},
         )
-
-    def post(self, request):
     """
     post checks that the form is valid and then edits the infomation accordingly
     """
+    def post(self, request):
+
         edit_user_form = EditUserForm(request.POST, instance=request.user)
         edit_profile_form = EditProfileForm(
             request.POST, request.FILES, instance=request.user.profile
@@ -250,6 +254,7 @@ class EditProfile(View):
         if edit_user_form.is_valid() and edit_profile_form.is_valid():
             edit_user_form.save()
             edit_profile_form.save()
+        messages.success(request, "profile changes saved")
         return redirect("profile")
 
 
@@ -257,11 +262,12 @@ class EditPost(View):
     """
     view that allows a user to edit a post they have made.
     """
-    def get(self, request, title):
     """
     get method gets the edit post template and passes it the forms while 
     loading the instances
     """
+    def get(self, request, title):
+
         post_to_edit = get_object_or_404(Post, title=title)
         edit_post_form = EditPostForm(instance=post_to_edit)
 
@@ -270,11 +276,11 @@ class EditPost(View):
                 "edit_post_form": edit_post_form, "post": post_to_edit
             }
         )
-
-    def post(self, request, title):
     """
     post checks that the form is valid and then edits the infomation accordingly
     """
+    def post(self, request, title):
+
         post_to_edit = get_object_or_404(Post, title=title)
         edit_post_form = EditPostForm(
             request.POST, request.FILES, instance=post_to_edit
@@ -289,7 +295,8 @@ class EditPost(View):
             )
             edit_post_form.instance.slug = post_slug
             edit_post_form.save()
-
+    
+        messages.success(request, "post changes saved")
         return redirect("profile", user=request.user)
 
 
@@ -299,8 +306,7 @@ class DeletePost(View):
     """
     def post(self, request, slugParameter):
         post = get_object_or_404(Post, slug=slugParameter)
-        print(post)
 
         post.delete()
-
+        messages.success(request, "Post deleted: " + post.title)
         return HttpResponseRedirect(reverse("profile", args=[request.user]))
