@@ -244,7 +244,7 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 ### code validation
 
-using the flake8 and pylint linter in my IDE I've validated my python code
+i would usually use pep8 for validation but at the time of writing it the site had been taken down therefore using the flake8 and pylint linter in my IDE I've validated my python code
 
 #### veiws.py
 
