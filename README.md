@@ -84,11 +84,19 @@ Looking at my strategy table it's clear not all features can be put in place for
 
 ### User Stories
 
-I wrote user stories to get a better idea of what a user would stand to gain from using my site. using the issue feature i was able to check them off as i developed them, here is my full list of user stories
+Github projects was used to track my user stories while they were completed. from the following 4 pictures you can see my progress in the project during the 4 weeks it took to complete
 
-![User Stories](assets/UserStories.png)
+- week 1
+![week 1](assets/week%201.png)
 
+- week 2
+![week 2](assets/week%202.png)
 
+- week 3
+![week 3](assets/week%203.png)
+
+- week 4
+![week 4](assets/week%204.png)
 
 
 ## structure
@@ -98,13 +106,15 @@ The website revolves around the home page. through here you can navigate to most
 
 ## Database model
 
+![my-Models](assets/models3.png)
+
 The website uses three models, one for posts, one for comments and one is an extension of the user model that adds more functionality, called profile.
 
 **Post model**
 
 * Title = title of the post
     
-* Author = author fo the post 
+* Author = author for the post 
     
 * Content = main body of the post
     
@@ -159,11 +169,24 @@ The website uses three models, one for posts, one for comments and one is an ext
 
 ![create post mobile](assets/createpostM.png)
 
+
+
 ### post detail
 
 ![post detail desktop](assets/postdetailD.png)
 
-## Features
+## Colour scheme
+
+![colour scheme](assets/colour_scheme%20-%20Copy.png)
+
+the majority of the site is mellow grey and off white, this is a colour that both allows contrast between the font and the background for easier reading, and also makes gives the site a contempory and official look. to bring some colour to the site i have added a mint green to the navigation bar, this is seen throughout the site therefore making it the primary colour for the site. green is a calming colour and has connotations with the enviroment and well being, which is the type of feeling i what my users to have while using the site. a darker green has been used in contrast to this for the article headers.
+
+## Fonts
+
+ive used "Josefin Slab" as my font throughout the site with sans-serif as a backup. this typeface has oversized and blocky serifs which are in-keeping with a news site. it feels more relaxed than a broadsheet but more credible than a tabloid.
+
+
+# Features
 
 ### General
 
@@ -386,7 +409,7 @@ To deploy this page to Heroku from its GitHub repository, the following steps we
 By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
 
 1. Log into [GitHub](https://github.com/login) or [create an account](https://github.com/join).
-2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+2. Locate the [GitHub Repository](https://github.com/DavidJPWard/blogject).
 3. At the top of the repository, on the right side of the page, select "Fork"
 4. You should now have a copy of the original repository in your GitHub account.
 
@@ -395,21 +418,21 @@ How to run this project locally:
 1. Install the [GitPod Browser](https://www.gitpod.io/docs/browser-extension/ "Link to Gitpod Browser extension download") Extension for Chrome.
 2. After installation, restart the browser.
 3. Log into [GitHub](https://github.com/login "Link to GitHub login page") or [create an account](https://github.com/join "Link to GitHub create account page").
-2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+2. Locate the [GitHub Repository](https://github.com/DavidJPWard/blogject).
 5. Click the green "GitPod" button in the top right corner of the repository.
 This will trigger a new gitPod workspace to be created from the code in github where you can work locally.
 
 How to run this project within a local IDE, such as VSCode:
 
 1. Log into [GitHub](https://github.com/login) or [create an account](https://github.com/join).
-2. Locate the [GitHub Repository](https://github.com/josswe26/code-buddy).
+2. Locate the [GitHub Repository](https://github.com/DavidJPWard/blogject).
 3. Under the repository name, click "Clone or download".
 4. In the Clone with HTTPs section, copy the clone URL for the repository.
 5. In your local IDE open the terminal.
 6. Change the current working directory to the location where you want the cloned directory to be made.
 7. Type 'git clone', and then paste the URL you copied in Step 3.
 ```
-git clone https://github.com/josswe26/code-buddy
+git clone https://github.com/DavidJPWard/blogject
 ```
 8. Press Enter. Your local clone will be created.
 
